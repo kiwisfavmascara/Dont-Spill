@@ -69,3 +69,11 @@ After trying the prototype myself, I kept tomato soup and coffee and removed pum
 The updated event set is floor tilt, falling ball, alien pull, slippery step and bear chase. The alien uses blue/red with tiny green lights, and the bear uses orange-red and blue print shadows. Events are shuffled with one of each per 30-second round. Floor tilt is sustained; slipping gives a decaying sideways jolt; the alien pulls an edge; bear pursuit causes oscillating bounce; the ball requires sideways avoidance. The background remains mostly yellow. Warning periods do not apply force, and time/forces stay frozen when tracking is interrupted.
 
 Automated checks are recorded separately in docs/VERIFICATION.md. My own feedback does not replace the required trial with another person, which remains pending.
+
+## Liquid and difficulty iteration — 23 October 2026
+
+I requested closer liquid styling and a harder experience, aiming for about 55% remaining on average. Codex replaced the regular liquid dots with irregular seeded grain, added curved cream ribbons, floating garnish, tilt-dependent waves and textured splash highlights. Animation uses game elapsed time, so pausing or losing tracking freezes the visual motion too. Lower remaining volume reduces splash size.
+
+The spill threshold changed from 0.18 to 0.14 radians, tilt loss from 27 to 46 percentage points per radian per second, and the rapid-motion penalty increased. Floor, alien, slip and bear disturbances were strengthened. The round remains 30 seconds and a level, steady tray still loses nothing. A simplified controller that compensates for 80% of an event with 0.3–0.7 second delay retained approximately 49–56%, excluding ball hits and real hand noise. This is a tuning estimate, not an observed human average. Real player trials are still needed to assess the 55% target.
+
+Checks: seven existing tests passed, JavaScript syntax and whitespace checks passed, and 120 mocked Canvas render states covered five events, both drinks, four fill amounts and three tilt angles without exceptions or unbalanced Canvas saves. These are not a browser screenshot review or a real-camera trial of this revision.
