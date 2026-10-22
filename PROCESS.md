@@ -57,3 +57,7 @@ Fill this section only after the actual trial:
 - Identify and credit P2's original source.
 - Review and explain the hand-to-response code.
 - Re-run from a fresh terminal, verify public repository access when signed out, and submit the repository URL through Canvas.
+
+## Iteration — 23 October 2026
+
+After trying the first prototype, I felt that 60 seconds was slightly too long, so I requested a 30-second round. The countdown, end condition and instructions were updated together. This is feedback from my own playtest, not the required trial with another person. Visual fidelity and stronger external events are next planned revisions; they are not implemented in this timing-only change.

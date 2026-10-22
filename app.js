@@ -346,7 +346,7 @@ function update(dt, now) {
     live = input(now, dt) && phase === "running";
   if (live) {
     elapsed += dt;
-    if (elapsed >= 60 || remaining <= 0) {
+    if (elapsed >= 30 || remaining <= 0) {
       finish();
       return;
     }
@@ -402,7 +402,7 @@ function update(dt, now) {
   drops = drops.filter((d) => d.life > 0);
   $("remaining").innerHTML = `${Math.ceil(remaining)}<span>%</span>`;
   $("timer").innerHTML =
-    `${Math.max(0, Math.ceil(60 - elapsed))}<span>s</span>`;
+    `${Math.max(0, Math.ceil(30 - elapsed))}<span>s</span>`;
   $("tilt-label").textContent =
     Math.abs(angle) < 0.13
       ? "LEVEL"

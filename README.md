@@ -22,7 +22,7 @@ Open **http://localhost:8000** in a current desktop Chrome or Edge browser. Do n
 2. Select **Enable camera & try it**, allow camera access, and show both open hands, comfortably apart, in the mirrored preview.
 3. Hold your hands still for calibration. Raise one hand to tilt the tray; move both hands sideways to move it. Use **Recalibrate** if the resting angle feels wrong.
 4. Watch the liquid, remaining percentage, and event warnings. Counteract wind and floor tilt; move away from a falling ball's landing position.
-5. After 60 seconds, see how much remains. Retry or return home to change your order.
+5. After 30 seconds, see how much remains. Retry or return home to change your order.
 
 The program uses palm centres, not a special gripping gesture. Small movements are enough. Put the camera far enough away to see both hands.
 
