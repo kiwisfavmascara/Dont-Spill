@@ -134,7 +134,10 @@ export function createRenderer(canvas) {
     ctx.fillRect(g.cx - g.rx, g.cy - g.ry, g.rx * 2, g.ry * 2);
     const fill = clamp(s.remaining / 100, 0, 1),
       surface = g.cy - g.ry + (1 - fill) * g.ry * 2;
-    const slosh = -s.angle * 0.55;
+    // Elapsed game time freezes all waves when paused or tracking is lost.
+    const energy = clamp(Math.abs(s.angle) * 2.2, 0, 1);
+    const wave = Math.sin(s.elapsed * 5.2) * energy * 9;
+    const slosh = -s.angle * 0.55 + Math.sin(s.elapsed * 3.7) * energy * 0.025;
     ctx.save();
     ctx.translate(g.cx, g.cy);
     ctx.rotate(slosh);
@@ -144,9 +147,9 @@ export function createRenderer(canvas) {
     ctx.lineTo(-g.rx * 1.5, surface - g.cy);
     ctx.bezierCurveTo(
       -g.rx * 0.5,
-      surface - g.cy - 8,
+      surface - g.cy - 8 - wave,
       g.rx * 0.5,
-      surface - g.cy + 8,
+      surface - g.cy + 8 + wave,
       g.rx * 1.5,
       surface - g.cy,
     );
@@ -156,29 +159,47 @@ export function createRenderer(canvas) {
     // Texture and cream swirl share the liquid's clipping region and drain with it.
     ctx.clip();
     ctx.save();
-    ctx.globalAlpha = 0.32;
-    ctx.fillStyle = dots(coffee ? "#663720" : "#da2d24");
-    ctx.fillRect(-g.rx, -g.ry, g.rx * 2, g.ry * 2);
+    // Organic bands and irregular stippling avoid the former regular dot grid.
+    ctx.globalAlpha = 0.22;
+    shape(`M ${-g.rx} 25 Q ${-g.rx*.35} ${-g.ry*.8+wave} ${g.rx*.45} 15 Q ${g.rx*.8} 35 ${g.rx} -10 L ${g.rx} 90 L ${-g.rx} 90 Z`, coffee ? "#65341f" : "#d92721");
     ctx.restore();
-    ctx.strokeStyle = C.cream;
-    ctx.lineWidth = 5;
-    ctx.beginPath();
-    ctx.ellipse(0, 0, g.rx * 0.45, g.ry * 0.27, -0.06, 0, Math.PI * 1.65);
-    ctx.stroke();
-    for (let i = 0; i < 8; i++) {
-      const x = -g.rx * 0.7 + ((i * 53) % (g.rx * 1.4)),
-        y = -g.ry * 0.2 + ((i * 19) % (g.ry * 0.8));
-      if (coffee) {
-        ellipse(x, y, 3, 2, C.cream);
-      } else {
-        ctx.save();
-        ctx.translate(x, y);
-        ctx.rotate(i * 0.7);
-        ctx.fillStyle = i % 2 ? "#159c48" : C.cream;
-        ctx.fillRect(-7, -3, 14, 6);
-        ctx.restore();
-      }
+    let grainSeed = 127;
+    const grain = () => ((grainSeed = (grainSeed * 1664525 + 1013904223) >>> 0) / 4294967296);
+    ctx.save();
+    ctx.globalAlpha = 0.3;
+    for (let i = 0; i < 600; i++) {
+      const x = (grain()*2-1)*g.rx, y = (grain()*2-1)*g.ry;
+      ellipse(x, y, .45 + grain()*1.1, .45 + grain()*.8, coffee ? "#63341f" : "#bd2725");
     }
+    ctx.restore();
+    ctx.save();
+    ctx.translate(Math.sin(s.elapsed*2)*energy*5, wave*.25);
+    ctx.strokeStyle = coffee ? "#edc78b" : C.cream;
+    ctx.lineWidth = coffee ? 8 : 10;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(-g.rx*.6, g.ry*.28);
+    ctx.bezierCurveTo(-g.rx*.1, g.ry*.65, g.rx*.5, g.ry*.15, g.rx*.15, 0);
+    ctx.bezierCurveTo(-g.rx*.5, -g.ry*.23, -g.rx*.15, -g.ry*.55, g.rx*.5, -g.ry*.32);
+    ctx.stroke();
+    ctx.lineWidth = 2.5;
+    ctx.strokeStyle = C.cream;
+    ctx.beginPath(); ctx.ellipse(g.rx*.03, -g.ry*.12, g.rx*.76, g.ry*.62, -.03, Math.PI*1.05, Math.PI*1.78); ctx.stroke();
+    for (let i = 0; i < 9; i++) {
+      const x = -g.rx*.68 + ((i*71) % (g.rx*1.36)),
+        y = -g.ry*.48 + ((i*31) % (g.ry*.96));
+      ctx.save(); ctx.translate(x, y); ctx.rotate(i*.8 + slosh);
+      if (coffee) {
+        ellipse(0,0,2+i%3,1.7,"#edc78b");
+      } else if (i%2) {
+        shape("M -10 0 Q -3 -10 10 -3 Q 7 5 -3 5 Z", "#159c48");
+        line(-5,2,6,-2,"#0d793e",1.2);
+      } else {
+        shape("M -7 -4 L 4 -6 L 9 0 L 5 5 L -7 3 Z", C.cream);
+      }
+      ctx.restore();
+    }
+    ctx.restore();
     ctx.restore();
     ctx.restore();
     // Fine rim follows vessel, while wave and droplets respond to the tilt.
@@ -193,7 +214,9 @@ export function createRenderer(canvas) {
       ctx.save();
       ctx.translate(g.cx + dir * g.rx * 0.75, g.cy + dir * g.ry * 0.15);
       ctx.scale(dir, 1);
-      const a = clamp((tip - 0.17) * 150, 0, 65);
+      const a = clamp((tip - 0.17) * 270, 0, 115) * Math.sqrt(fill);
+      const pulse = 0.9 + Math.sin(s.elapsed*8)*0.1;
+      ctx.scale(pulse, pulse);
       ctx.fillStyle = s.drink.color;
       ctx.beginPath();
       ctx.moveTo(-35, 8);
@@ -202,13 +225,18 @@ export function createRenderer(canvas) {
       ctx.bezierCurveTo(38, -a + 18, 27, 25, -12, 26);
       ctx.closePath();
       ctx.fill();
-      for (let i = 0; i < 3; i++) {
+      ctx.save(); ctx.clip();
+      ctx.globalAlpha = 0.35; ctx.fillStyle = dots(coffee ? "#65341f" : "#be2725");
+      ctx.fillRect(-40,-a-20,120,a+60); ctx.restore();
+      ctx.strokeStyle = C.cream; ctx.lineWidth = 4; ctx.lineCap = "round";
+      ctx.beginPath(); ctx.moveTo(-5,12); ctx.bezierCurveTo(24,4,38,-a+8,52,-a+3); ctx.stroke();
+      for (let i = 0; i < 4; i++) {
         const t = (s.elapsed * 1.5 + i * 0.27) % 1;
         ellipse(
           65 + t * 65,
           10 + t * t * 95 - a * 0.5,
-          5 - t * 2,
-          8 - t * 2,
+          (9 - t * 4) * Math.sqrt(fill),
+          (14 - t * 5) * Math.sqrt(fill),
           s.drink.color,
         );
       }
