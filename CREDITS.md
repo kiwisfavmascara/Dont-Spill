@@ -1,0 +1,17 @@
+# Credits
+
+## Visual direction
+
+- Concept and selected palette: Xie Tianqi.
+- Selected “01 SUNNY POP” mockup: generated with ChatGPT image generation during iterative direction and palette exploration. Included as `assets/visual-direction.png`.
+- Stylistic reference: the user's P2 image with cyan background, pale pink organic forms, orange-red bursts and halftone textures. **Original creator and URL are not yet identified; attribution must be completed before coursework submission.** Reference is described in PROCESS but not republished here. Do not claim authorship of the reference.
+- Runtime drawing: procedural Canvas artwork implemented with Codex assistance, interpreting the selected visual direction.
+
+## Software
+
+- Google MediaPipe Tasks Vision 0.10.21 and Hand Landmarker model: https://github.com/google-ai-edge/mediapipe (Apache-2.0 project).
+- Implementation API reference: https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker/web_js . Integration was written with Codex using the documented FilesetResolver, createFromOptions and detectForVideo APIs.
+- Library delivery: https://www.jsdelivr.com/ . Model delivery: Google's MediaPipe model storage.
+- No course example code, music, external fonts or borrowed game code is included.
+
+See PROCESS.md for the AI assistance disclosure and outstanding source attribution.

@@ -463,25 +463,31 @@ function ellipse(cx, cy, rx, ry, fill) {
   ctx.fillStyle = fill;
   ctx.fill();
 }
+// Cache printed dot tiles rather than drawing thousands of circles every frame.
+const dotTiles = new Map();
 function dots(cx, cy, rx, ry, color, spacing = 8) {
+  const key = `${color}:${spacing}`;
+  if (!dotTiles.has(key)) {
+    const tile = document.createElement("canvas");
+    tile.width = tile.height = spacing * 2;
+    const g = tile.getContext("2d");
+    g.fillStyle = color;
+    for (const [x, y] of [
+      [spacing / 2, spacing / 2],
+      [spacing * 1.5, spacing * 1.5],
+    ]) {
+      g.beginPath();
+      g.arc(x, y, 1.5, 0, Math.PI * 2);
+      g.fill();
+    }
+    dotTiles.set(key, ctx.createPattern(tile, "repeat"));
+  }
   ctx.save();
   ctx.beginPath();
   ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
   ctx.clip();
-  ctx.fillStyle = color;
-  for (let j = -ry; j < ry; j += spacing)
-    for (let i = -rx; i < rx; i += spacing) {
-      const rad = clamp((cy + j + 140) / 160, 0.4, 2.2);
-      ctx.beginPath();
-      ctx.arc(
-        cx + i + (Math.round(j / spacing) % 2 ? 4 : 0),
-        cy + j,
-        rad,
-        0,
-        Math.PI * 2,
-      );
-      ctx.fill();
-    }
+  ctx.fillStyle = dotTiles.get(key);
+  ctx.fillRect(cx - rx, cy - ry, rx * 2, ry * 2);
   ctx.restore();
 }
 function hand(flip) {
@@ -550,6 +556,19 @@ function draw(now) {
   ctx.ellipse(0, 65, 407, 119, 0, 0, Math.PI * 2);
   ctx.stroke();
   ctx.restore();
+  // Thumbs rest on the front rim so the grip stays readable.
+  for (const side of [-1, 1]) {
+    ctx.save();
+    ctx.translate(side * 399, 126);
+    ctx.scale(-side, 1);
+    path(
+      "M -30 39 Q -48 12 -24 -12 L 6 -44 Q 26 -60 39 -40 Q 48 -23 31 -5 L 13 24 Q 6 43 -30 39 Z",
+      colors.skin,
+      colors.blue,
+    );
+    dots(4, 26, 23, 9, colors.red, 7);
+    ctx.restore();
+  }
   ellipse(0, 95, 195, 35, colors.blue);
   path("M -216 -85 C -199 165 194 165 216 -85 Z", colors.cream);
   ctx.save();
