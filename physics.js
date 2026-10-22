@@ -13,7 +13,7 @@ export function handControl(hands, neutral = { angle: 0, x: 0.5 }) {
 }
 export function spillRate(angle, velocity) {
   return (
-    Math.max(0, Math.abs(angle) - 0.18) * 27 +
-    Math.max(0, Math.abs(velocity) - 1.4) * 1.2
+    Math.max(0, Math.abs(angle) - 0.14) * 46 +
+    Math.max(0, Math.abs(velocity) - 1.1) * 2.2
   );
 }
