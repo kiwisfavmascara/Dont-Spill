@@ -17,3 +17,11 @@
 - Hosting/live deployment (repository source is provided).
 
 Do not present automated checks as a user trial.
+
+## Visual/event revision — 23 October 2026
+
+- Seven tests pass, including five unique events within a 30-second schedule, force-free warnings, counterable stronger floor tilt, slip/chase motion and ball collision separation.
+- Headless Chromium: exactly two drink options; all five event messages appear during a complete round; round ends and retry returns to 100% / 30s; no uncaught page errors.
+- Selected coffee cup and tomato soup screenshots are actual runtime captures. The generated transparent artwork was inspected in context.
+- Keyboard tilt still drains the liquid; pause freezes the timer; narrow viewport has no horizontal overflow.
+- Real camera recognition and comfort still require device/user testing after this revision. The required trial with another person remains pending.

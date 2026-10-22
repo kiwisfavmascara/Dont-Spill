@@ -61,3 +61,11 @@ Fill this section only after the actual trial:
 ## Iteration — 23 October 2026
 
 After trying the first prototype, I felt that 60 seconds was slightly too long, so I requested a 30-second round. The countdown, end condition and instructions were updated together. This is feedback from my own playtest, not the required trial with another person. Visual fidelity and stronger external events are next planned revisions; they are not implemented in this timing-only change.
+
+## Visual and event iteration — 23 October 2026
+
+After trying the prototype myself, I kept tomato soup and coffee and removed pumpkin soup. The earlier runtime shapes differed too much from the selected illustration, so I asked for closer printed-art visuals. Codex used ChatGPT image generation to produce separate transparent tray/hands, empty bowl, empty coffee cup with saucer, alien and bear assets based on the approved direction. The liquid is still drawn in code so it responds to tilt and drains. This is AI-assisted artwork, not a claim that I drew the assets manually.
+
+The updated event set is floor tilt, falling ball, alien pull, slippery step and bear chase. The alien uses blue/red with tiny green lights, and the bear uses orange-red and blue print shadows. Events are shuffled with one of each per 30-second round. Floor tilt is sustained; slipping gives a decaying sideways jolt; the alien pulls an edge; bear pursuit causes oscillating bounce; the ball requires sideways avoidance. The background remains mostly yellow. Warning periods do not apply force, and time/forces stay frozen when tracking is interrupted.
+
+Automated checks are recorded separately in docs/VERIFICATION.md. My own feedback does not replace the required trial with another person, which remains pending.

@@ -1,4 +1,13 @@
 import { clamp, handControl, spillRate } from "./physics.js";
+import {
+  ROUND_SECONDS,
+  EVENT_SECONDS,
+  WARNING_SECONDS,
+  shuffledEvents,
+  disturbance,
+  ballCollision,
+} from "./events.js";
+import { createRenderer } from "./renderer.js";
 const $ = (id) => document.getElementById(id),
   canvas = $("scene"),
   ctx = canvas.getContext("2d"),
@@ -33,7 +42,7 @@ let angle = 0,
   elapsed = 0,
   previous = performance.now(),
   event = null,
-  nextEvent = 6,
+  nextEvent = 2.5,
   eventIndex = 0,
   drops = [],
   keys = new Set(),
@@ -41,7 +50,6 @@ let angle = 0,
   pausedFrom = "running";
 const drinks = {
   tomato: { name: "tomato soup", color: "#ff4634" },
-  pumpkin: { name: "pumpkin soup", color: "#ff9e19" },
   coffee: { name: "coffee", color: "#9e542c" },
 };
 let drink = drinks.tomato;
@@ -66,7 +74,8 @@ function reset() {
   remaining = 100;
   elapsed = 0;
   event = null;
-  nextEvent = 6;
+  nextEvent = 2.5;
+  eventOrder = shuffledEvents();
   eventIndex = 0;
   drops = [];
   readyAt = 0;
@@ -334,11 +343,7 @@ function input(now, dt) {
   targetX = control.x;
   return true;
 }
-const events = [
-  { name: "SIDE WIND →", type: "wind" },
-  { name: "THE FLOOR IS TIPPING!", type: "slope" },
-  { name: "LOOK OUT! MOVE LEFT OR RIGHT", type: "ball" },
-];
+let eventOrder = shuffledEvents();
 function update(dt, now) {
   track(now);
   let live = false;
@@ -346,45 +351,43 @@ function update(dt, now) {
     live = input(now, dt) && phase === "running";
   if (live) {
     elapsed += dt;
-    if (elapsed >= 30 || remaining <= 0) {
+    if (elapsed >= ROUND_SECONDS || remaining <= 0) {
       finish();
       return;
     }
-    if (!event && elapsed >= nextEvent) {
-      const e = events[eventIndex++ % events.length];
+    if (!event && elapsed >= nextEvent && eventIndex < eventOrder.length) {
+      const e = eventOrder[eventIndex++];
       event = {
         ...e,
         start: elapsed,
         direction: eventIndex % 2 ? 1 : -1,
-        ballX: clamp(x + (Math.random() - 0.5) * 0.22, -0.55, 0.55),
+        ballX: Math.random() < 0.5 ? -0.6 : 0.6,
         hit: false,
       };
     }
-    let force = 0;
+    let force = { angle: 0, x: 0, y: 0 };
     if (event) {
       const age = elapsed - event.start;
-      if (age > 2) {
-        if (event.type === "wind")
-          force = Math.sin((age - 2) * 2) * 0.17 + event.direction * 0.13;
-        if (event.type === "slope") force = event.direction * 0.3;
-        if (event.type === "ball" && age >= 3 && age < 3.3 && !event.hit) {
-          event.hit = true;
-          if (Math.abs(x - event.ballX) < 0.28) {
-            remaining = Math.max(0, remaining - 15);
-            spawn(18);
-            status("Bump! Move the tray away from the falling ball.");
-          } else status("Nice dodge. Still delivering.");
-        }
+      force = disturbance(event.type, age, event.direction);
+      if (event.type === "ball" && age >= 2.5 && !event.hit) {
+        event.hit = true;
+        if (ballCollision(x, event.ballX)) {
+          remaining = Math.max(0, remaining - 18);
+          spawn(18);
+          status("Bump! Move away from the marked landing spot.");
+        } else status("Nice dodge. Still delivering.");
       }
-      if (age > 6) {
+      if (age > EVENT_SECONDS) {
         event = null;
-        nextEvent = elapsed + 5;
+        nextEvent = elapsed + 1;
       }
     }
     const old = angle;
-    angle += (target + force - angle) * (1 - Math.exp(-dt * 8));
+    angle +=
+      (clamp(target + force.angle, -0.85, 0.85) - angle) *
+      (1 - Math.exp(-dt * 8));
     velocity = (angle - old) / Math.max(0.001, dt);
-    x += (targetX - x) * (1 - Math.exp(-dt * 7));
+    x += (clamp(targetX + force.x, -0.75, 0.75) - x) * (1 - Math.exp(-dt * 7));
     const loss = spillRate(angle, velocity) * dt;
     remaining = Math.max(0, remaining - loss);
     if (loss > 0.015 && Math.random() < 0.6) spawn(1);
@@ -402,7 +405,7 @@ function update(dt, now) {
   drops = drops.filter((d) => d.life > 0);
   $("remaining").innerHTML = `${Math.ceil(remaining)}<span>%</span>`;
   $("timer").innerHTML =
-    `${Math.max(0, Math.ceil(30 - elapsed))}<span>s</span>`;
+    `${Math.max(0, Math.ceil(ROUND_SECONDS - elapsed))}<span>s</span>`;
   $("tilt-label").textContent =
     Math.abs(angle) < 0.13
       ? "LEVEL"
@@ -423,6 +426,8 @@ function spawn(n) {
     });
 }
 function finish() {
+  $("timer").innerHTML =
+    `${Math.max(0, Math.ceil(ROUND_SECONDS - elapsed))}<span>s</span>`;
   phase = "result";
   event = null;
   const amount = Math.ceil(remaining);
@@ -444,195 +449,26 @@ function finish() {
   status("Delivery complete. Try again or change your order.");
   controls();
 }
-// Canvas shapes stay separate so the liquid can move independently from the bowl.
-function path(d, fill, stroke) {
-  const p = new Path2D(d);
-  if (fill) {
-    ctx.fillStyle = fill;
-    ctx.fill(p);
-  }
-  if (stroke) {
-    ctx.strokeStyle = stroke;
-    ctx.lineWidth = 2;
-    ctx.stroke(p);
-  }
-}
-function ellipse(cx, cy, rx, ry, fill) {
-  ctx.beginPath();
-  ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
-  ctx.fillStyle = fill;
-  ctx.fill();
-}
-// Cache printed dot tiles rather than drawing thousands of circles every frame.
-const dotTiles = new Map();
-function dots(cx, cy, rx, ry, color, spacing = 8) {
-  const key = `${color}:${spacing}`;
-  if (!dotTiles.has(key)) {
-    const tile = document.createElement("canvas");
-    tile.width = tile.height = spacing * 2;
-    const g = tile.getContext("2d");
-    g.fillStyle = color;
-    for (const [x, y] of [
-      [spacing / 2, spacing / 2],
-      [spacing * 1.5, spacing * 1.5],
-    ]) {
-      g.beginPath();
-      g.arc(x, y, 1.5, 0, Math.PI * 2);
-      g.fill();
-    }
-    dotTiles.set(key, ctx.createPattern(tile, "repeat"));
-  }
-  ctx.save();
-  ctx.beginPath();
-  ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
-  ctx.clip();
-  ctx.fillStyle = dotTiles.get(key);
-  ctx.fillRect(cx - rx, cy - ry, rx * 2, ry * 2);
-  ctx.restore();
-}
-function hand(flip) {
-  ctx.save();
-  ctx.translate(flip * 405, 120);
-  ctx.scale(-flip, 1);
-  path(
-    "M -110 340 L -40 96 Q -87 39 -43 -17 L -3 -54 Q 14 -66 27 -47 L 42 -12 Q 56 10 45 38 L 35 74 L 85 340 Z",
-    colors.skin,
-    colors.blue,
-  );
-  path("M -43 -17 Q -56 15 -40 40 M 27 -47 Q 4 -31 13 -9", null, colors.blue);
-  dots(-2, 83, 42, 16, colors.red, 7);
-  dots(44, 200, 25, 110, colors.blue, 8);
-  ctx.restore();
-}
-function draw(now) {
-  const rect = canvas.getBoundingClientRect(),
-    dpr = Math.min(devicePixelRatio || 1, 2);
-  if (
-    canvas.width !== Math.round(rect.width * dpr) ||
-    canvas.height !== Math.round(rect.height * dpr)
-  ) {
-    canvas.width = Math.round(rect.width * dpr);
-    canvas.height = Math.round(rect.height * dpr);
-  }
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  ctx.clearRect(0, 0, rect.width, rect.height);
-  const scale = Math.min(rect.width / 1120, rect.height / 650);
-  ctx.translate(rect.width / 2, rect.height * 0.52);
-  ctx.scale(scale, scale);
-  if (event?.type === "ball") {
-    const age = elapsed - event.start,
-      bx = event.ballX * 400;
-    ctx.save();
-    ctx.globalAlpha = 0.28;
-    ellipse(bx, 230, 65, 14, colors.red);
-    ctx.restore();
-    if (age < 3.3) {
-      const by = age < 2 ? -260 : -260 + (age - 2) * 440;
-      ellipse(bx, by, 35, 35, colors.cream);
-      dots(bx, by + 9, 33, 25, colors.blue, 6);
-      ctx.fillStyle = colors.blue;
-      ctx.font = "bold 25px Arial";
-      ctx.fillText("↓", bx - 10, by - 50);
-    }
-  }
-  ctx.save();
-  ctx.translate(x * 280, 30);
-  ctx.rotate(angle);
-  path(
-    "M -310 -85 L -415 -180 L -355 -65 L -470 -105 L -350 -20 Z",
-    colors.red,
-  );
-  path("M 310 -85 L 415 -180 L 355 -65 L 470 -105 L 350 -20 Z", colors.red);
-  hand(-1);
-  hand(1);
-  ellipse(0, 92, 443, 152, colors.cream);
-  ellipse(0, 82, 427, 139, colors.blue);
-  ellipse(0, 69, 400, 112, colors.light);
-  dots(0, 95, 400, 98, colors.blue, 7);
-  ctx.save();
-  ctx.strokeStyle = colors.cream;
-  ctx.lineWidth = 5;
-  ctx.beginPath();
-  ctx.ellipse(0, 65, 407, 119, 0, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.restore();
-  // Thumbs rest on the front rim so the grip stays readable.
-  for (const side of [-1, 1]) {
-    ctx.save();
-    ctx.translate(side * 399, 126);
-    ctx.scale(-side, 1);
-    path(
-      "M -30 39 Q -48 12 -24 -12 L 6 -44 Q 26 -60 39 -40 Q 48 -23 31 -5 L 13 24 Q 6 43 -30 39 Z",
-      colors.skin,
-      colors.blue,
-    );
-    dots(4, 26, 23, 9, colors.red, 7);
-    ctx.restore();
-  }
-  ellipse(0, 95, 195, 35, colors.blue);
-  path("M -216 -85 C -199 165 194 165 216 -85 Z", colors.cream);
-  ctx.save();
-  ctx.clip(new Path2D("M -216 -85 C -199 165 194 165 216 -85 Z"));
-  dots(-110, 33, 150, 95, colors.light, 6);
-  dots(-155, 69, 90, 57, colors.blue, 7);
-  ctx.restore();
-  ellipse(0, -85, 218, 92, colors.cream);
-  ctx.save();
-  ctx.beginPath();
-  ctx.ellipse(0, -85, 201, 77, 0, 0, Math.PI * 2);
-  ctx.clip();
-  ctx.fillStyle = colors.cream;
-  ctx.fillRect(-220, -170, 440, 180);
-  const level = -130 + (100 - remaining) * 0.75;
-  ctx.beginPath();
-  ctx.moveTo(-240, 40);
-  ctx.lineTo(-240, level - angle * 140);
-  ctx.bezierCurveTo(
-    -100,
-    level + angle * 100 + Math.sin(now / 250) * 8,
-    70,
-    level - angle * 110,
-    240,
-    level + angle * 140,
-  );
-  ctx.lineTo(240, 40);
-  ctx.closePath();
-  ctx.fillStyle = drink.color;
-  ctx.fill();
-  for (let i = 0; i < 9; i++) {
-    const gx = -150 + ((i * 47) % 300),
-      gy = -90 + ((i * 23) % 60);
-    ctx.save();
-    ctx.translate(gx, gy);
-    ctx.rotate(i);
-    ctx.fillStyle = i % 2 ? "#169a43" : colors.cream;
-    ctx.fillRect(-9, -4, 18, 8);
-    ctx.restore();
-  }
-  ctx.restore();
-  ctx.strokeStyle = colors.cream;
-  ctx.lineWidth = 8;
-  ctx.beginPath();
-  ctx.ellipse(0, -85, 214, 88, 0, 0, Math.PI * 2);
-  ctx.stroke();
-  for (const d of drops) ellipse(d.x, d.y, 5, 9, drink.color);
-  ctx.restore();
-  if (mode === "camera" && (!calibrated || lost)) {
-    ctx.fillStyle = colors.blue;
-    ctx.font = "bold 16px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText(
-      hands.length === 2 ? "HOLD STEADY…" : "SHOW BOTH HANDS TO THE CAMERA",
-      0,
-      -265,
-    );
-  }
+const renderer = createRenderer(canvas);
+function draw() {
+  renderer.draw({
+    angle,
+    x,
+    remaining,
+    drink,
+    event,
+    elapsed,
+    phase,
+    hands: hands.length,
+    calibrated,
+    lost,
+  });
 }
 function loop(now) {
   const dt = Math.min((now - previous) / 1000, 0.05);
   previous = now;
   update(dt, now);
-  draw(now);
+  draw();
   requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);

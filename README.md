@@ -18,7 +18,7 @@ Open **http://localhost:8000** in a current desktop Chrome or Edge browser. Do n
 
 ## How to play
 
-1. Choose tomato soup, pumpkin soup, or coffee.
+1. Choose tomato soup or coffee.
 2. Select **Enable camera & try it**, allow camera access, and show both open hands, comfortably apart, in the mirrored preview.
 3. Hold your hands still for calibration. Raise one hand to tilt the tray; move both hands sideways to move it. Use **Recalibrate** if the resting angle feels wrong.
 4. Watch the liquid, remaining percentage, and event warnings. Counteract wind and floor tilt; move away from a falling ball's landing position.
@@ -39,7 +39,7 @@ The program uses palm centres, not a special gripping gesture. Small movements a
 
 ## Implementation
 
-`physics.js` maps two palm positions to tray angle and horizontal position. `app.js` smooths that input, adds event disturbance, calculates loss, and draws each object independently. The amount left is state, not a random score: sustained excessive tilt drains it, while ball collisions remove 15 percentage points. Three prototype events currently cycle: wind, slope and falling ball (with a randomized target location). The proposed 6–8 randomly selected events are future work.
+`physics.js` maps two palm positions to tray angle and horizontal position. `app.js` smooths that input and calculates loss; `events.js` schedules disturbances; `renderer.js` combines separate transparent printed-art sprites with a live Canvas liquid surface. The amount left is state, not a random score: sustained excessive tilt drains it, while ball collisions remove 18 percentage points. Five events appear once each in a randomized order within the 30-second round: floor tilt, falling ball, alien pull, slippery step, and bear chase. Every event has a warning before its stronger disturbance starts. Balls fall at the left or right third of the scene.
 
 ## Checks
 
@@ -53,7 +53,7 @@ Before submission, also run the camera on a real device, try permission denial, 
 
 ## Known limitations
 
-This is the first prototype. The Canvas illustration interprets the approved visual direction; it is not a pixel-identical layered recreation. Liquids use a simple loss rule rather than fluid simulation. Tracking can jitter, fail in poor lighting, or struggle with overlapping hands. Calibration needs a comfortable steady pose. Detection runs at a limited frequency on the main thread, so older computers may stutter. Physical camera comfort and recognition quality still need user testing. Keyboard is the demonstration path when camera dependencies are unavailable. Desktop use is intended; mobile touch controls are not implemented.
+This is the second visual prototype. The hands/tray, empty bowl, cup/saucer, alien and bear use AI-generated transparent artwork based on the selected direction. Liquid, fill level, spills and motion remain procedural; they are not a static screenshot. Liquids use a simple loss rule rather than fluid simulation. Tracking can jitter, fail in poor lighting, or struggle with overlapping hands. Calibration needs a comfortable steady pose. Detection runs at a limited frequency on the main thread, so older computers may stutter. Physical camera comfort and recognition quality still need user testing. Keyboard is the demonstration path when camera dependencies are unavailable. Desktop use is intended; mobile touch controls are not implemented.
 
 ## Credits
 
