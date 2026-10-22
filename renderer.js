@@ -13,7 +13,30 @@ export function createRenderer(canvas) {
   const ctx = canvas.getContext("2d"),
     assets = {},
     tiles = new Map();
-  let lastMessage = "";
+  // Cache print textures: no random flicker or per-frame particle generation.
+  const ballArt = document.createElement("canvas");
+  ballArt.width = ballArt.height = 224;
+  const b = ballArt.getContext("2d");
+  b.translate(112, 112);
+  b.beginPath(); b.arc(0, 0, 105, 0, Math.PI * 2); b.clip();
+  b.fillStyle = C.cream; b.fillRect(-112, -112, 224, 224);
+  b.fillStyle = C.blue;
+  b.beginPath(); b.arc(0, 0, 103, 0, Math.PI * 2);
+  b.arc(30, -37, 94, 0, Math.PI * 2, true); b.fill("evenodd");
+  let seed = 731;
+  const random = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
+  for (let i = 0; i < 6500; i++) {
+    const x = random() * 214 - 107, y = random() * 214 - 107;
+    const shade = Math.hypot(x - 30, y + 37);
+    if (random() < Math.max(0, Math.min(0.9, (shade - 40) / 100))) {
+      b.fillStyle = random() < 0.18 ? C.light : C.blue;
+      b.beginPath(); b.arc(x, y, 0.5 + random() * 1.6, 0, 7); b.fill();
+    }
+  }
+  b.fillStyle = C.cream;
+  for (const [x,y,rx,ry,r] of [[-24,-66,24,12,-0.4],[77,4,9,24,0.1]]) {
+    b.beginPath(); b.ellipse(x,y,rx,ry,r,0,7); b.fill();
+  }
   const ready = Promise.all(
     ["tray", "bowl", "cup", "alien", "bear"].map(
       (name) =>
@@ -66,10 +89,10 @@ export function createRenderer(canvas) {
   function sprite(name, x, y, w, h) {
     if (assets[name]) ctx.drawImage(assets[name], x, y, w, h);
   }
-  function burst(x, y, side = 1) {
+  function burst(x, y, side = 1, size = 0.55) {
     ctx.save();
     ctx.translate(x, y);
-    ctx.scale(side, 1);
+    ctx.scale(side * size, size);
     shape(
       "M 0 0 L -115 -80 L -42 -57 L -92 -140 L -18 -63 L -18 -108 L 18 -15 Z",
       C.red,
@@ -192,17 +215,10 @@ export function createRenderer(canvas) {
       ctx.restore();
     }
   }
-  function effects(s) {
+  function fallingBall(s) {
     const e = s.event;
     if (!e) return;
-    const age = s.elapsed - e.start,
-      active = age > WARNING_SECONDS;
-    if (e.type === "slope") {
-      ctx.save();
-      ctx.globalAlpha = 0.35;
-      line(-550, 250, 550, 250 + e.direction * 35, C.blue, 1.5);
-      ctx.restore();
-    }
+    const age = s.elapsed - e.start;
     if (e.type === "ball") {
       const bx = e.ballX * 300;
       ctx.save();
@@ -219,17 +235,24 @@ export function createRenderer(canvas) {
             ? -245
             : -245 +
               Math.pow(clamp((age - WARNING_SECONDS) / 1.4, 0, 1), 2) * 430;
-        ellipse(bx, by, 45, 45, C.cream);
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(bx, by, 44, 0, 7);
-        ctx.clip();
-        ctx.fillStyle = dots(C.blue);
-        ctx.fillRect(bx - 45, by - 5, 90, 50);
-        ctx.restore();
-        for (let i = -1; i <= 1; i++)
-          line(bx + i * 22, by - 65, bx + i * 22, by - 105, C.blue, 4);
+        ctx.drawImage(ballArt, bx - 80, by - 80, 160, 160);
+        for (let i = -2; i <= 2; i++) {
+          const x = bx + i * 24;
+          shape(`M ${x} ${by-92} Q ${x-5} ${by-125} ${x+2} ${by-180} Q ${x+8} ${by-120} ${x} ${by-92} Z`, i % 2 ? C.light : C.blue);
+        }
       }
+    }
+  }
+  function effects(s) {
+    const e = s.event;
+    if (!e) return;
+    const age = s.elapsed - e.start,
+      active = age > WARNING_SECONDS;
+    if (e.type === "slope") {
+      ctx.save();
+      ctx.globalAlpha = 0.35;
+      line(-550, 250, 550, 250 + e.direction * 35, C.blue, 1.5);
+      ctx.restore();
     }
     if (e.type === "alien") {
       const ax = e.direction > 0 ? -370 : 235,
@@ -241,11 +264,14 @@ export function createRenderer(canvas) {
           `M ${ax + 65} ${ay + 110} L ${-e.direction * 330} 95 L ${-e.direction * 270} 95 Z`,
           C.cream,
         );
+        ctx.globalAlpha = 0.4;
+        ctx.fillStyle = dots(C.blue);
+        ctx.fill(new Path2D(`M ${ax + 65} ${ay + 110} L ${-e.direction * 330} 95 L ${-e.direction * 270} 95 Z`));
         ctx.globalAlpha = 0.65;
         line(ax + 65, ay + 110, -e.direction * 300, 95, C.blue, 2);
         ctx.restore();
       }
-      sprite("alien", ax, ay, 145, 145);
+      sprite("alien", ax - 15, ay, 180, 180);
     }
     if (e.type === "slip") {
       // A tiny peel and red skid marks communicate a jolt without changing scenery.
@@ -255,7 +281,14 @@ export function createRenderer(canvas) {
         "M -35 0 Q -10 8 0 -28 Q 12 0 38 8 Q 17 19 1 1 Q -8 23 -35 0 Z",
         C.cream,
       );
+      ctx.strokeStyle = C.blue; ctx.lineWidth = 2.5;
+      ctx.stroke(new Path2D("M -35 0 Q -10 8 0 -28 Q 12 0 38 8 Q 17 19 1 1 Q -8 23 -35 0 Z"));
       line(0, -28, 0, -38, C.blue, 3);
+      line(-32, 13, 40, 20, C.blue, 2);
+      for (let i = 0; i < 3; i++) {
+        ctx.save(); ctx.translate(48 + i * 12, -6); ctx.rotate(0.3 + i * 0.3);
+        ctx.fillStyle = C.red; ctx.fillRect(-2, -20, 4, 18); ctx.restore();
+      }
       ctx.restore();
       if (active) {
         for (const side of [-1, 1])
@@ -270,10 +303,19 @@ export function createRenderer(canvas) {
       for (const side of [-1, 1])
         line(side * 45, -155, side * 540, 110, C.cream, 2);
       ctx.restore();
-      sprite("bear", -55, -260 + bounce, 110, 115);
+      sprite("bear", -70, -270 + bounce, 140, 146);
       if (active) {
         for (const side of [-1, 1]) {
-          burst(side * 95, -180, side);
+          for (let i = 0; i < 4; i++) {
+            const t = (age * 1.5 + i * 0.25) % 1;
+            const x = side * (75 + t * 65);
+            ellipse(x, -137 - Math.sin(t * Math.PI) * 16, 3 + t * 8, 3 + t * 5, i % 2 ? C.red : C.cream);
+          }
+        }
+      }
+      if (active) {
+        for (const side of [-1, 1]) {
+          burst(side * 120, -195, side, 0.3);
           line(side * 480, 60, side * 500, 100, C.blue, 4);
         }
       }
@@ -301,8 +343,10 @@ export function createRenderer(canvas) {
     ctx.save();
     ctx.translate(s.x * 300, -25 + f.y);
     ctx.rotate(s.angle);
-    burst(-285, -70);
-    burst(285, -70, -1);
+    if (Math.abs(s.angle) > 0.17) {
+      burst(-390, 25);
+      burst(390, 25, -1);
+    }
     if (assets.tray) {
       sprite("tray", -560, -225, 1120, 630);
     } else {
@@ -310,6 +354,7 @@ export function createRenderer(canvas) {
     }
     container(s);
     ctx.restore();
+    fallingBall(s);
     if (!assets.tray || !assets.bowl || !assets.cup) {
       ctx.textAlign = "center";
       ctx.fillStyle = C.blue;
