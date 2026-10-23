@@ -2,7 +2,7 @@
 
 ## Starting idea
 
-I wanted an everyday action to become unexpectedly difficult. The idea developed from opening a cupboard or fridge and making the whole scene tilt into carrying a tray while absurd events happen around it. The intended audience is students and ordinary desktop users looking for a brief playful break.
+I wanted an everyday action or scenario become more interesting. The idea developed from opening a cupboard or fridge and making the whole scene tilt into carrying a tray while absurd events happen around it. Then I come up with the idea of holding a type of liquid to avoid spilling it.
 
 The core loop is: move two hands → change the tray position and tilt → see the liquid move or spill → adjust the hands again. The remaining amount gives the action a consequence.
 
