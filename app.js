@@ -3,6 +3,7 @@ import {
   ROUND_SECONDS,
   EVENT_SECONDS,
   WARNING_SECONDS,
+  BALL_HIT_SECONDS,
   shuffledEvents,
   disturbance,
   ballCollision,
@@ -74,7 +75,7 @@ function reset() {
   remaining = 100;
   elapsed = 0;
   event = null;
-  nextEvent = 2.5;
+  nextEvent = 2 + Math.random() * 0.5;
   eventOrder = shuffledEvents();
   eventIndex = 0;
   drops = [];
@@ -360,7 +361,7 @@ function update(dt, now) {
       event = {
         ...e,
         start: elapsed,
-        direction: eventIndex % 2 ? 1 : -1,
+        direction: Math.random() < 0.5 ? 1 : -1,
         ballX: Math.random() < 0.5 ? -0.6 : 0.6,
         hit: false,
       };
@@ -369,17 +370,17 @@ function update(dt, now) {
     if (event) {
       const age = elapsed - event.start;
       force = disturbance(event.type, age, event.direction);
-      if (event.type === "ball" && age >= 2.5 && !event.hit) {
+      if (event.type === "ball" && age >= BALL_HIT_SECONDS && !event.hit) {
         event.hit = true;
         if (ballCollision(x, event.ballX)) {
           remaining = Math.max(0, remaining - 18);
           spawn(18);
-          status("Bump! Move away from the marked landing spot.");
-        } else status("Nice dodge. Still delivering.");
+
+        }
       }
       if (age > EVENT_SECONDS) {
         event = null;
-        nextEvent = elapsed + 1;
+        nextEvent = elapsed + 0.55 + Math.random() * 0.45;
       }
     }
     const old = angle;
@@ -413,7 +414,7 @@ function update(dt, now) {
         ? "TIPPING RIGHT ↘"
         : "↙ TIPPING LEFT";
   $("event").textContent =
-    phase === "paused" ? "PAUSED" : event ? event.name : "";
+    phase === "paused" ? "PAUSED" : "";
 }
 function spawn(n) {
   for (let i = 0; i < n; i++)
