@@ -1,5 +1,5 @@
 import { clamp } from "./physics.js";
-import { disturbance, WARNING_SECONDS } from "./events.js";
+import { disturbance, WARNING_SECONDS, BALL_CUE_SECONDS, BALL_FALL_SECONDS, BALL_HIT_SECONDS } from "./events.js";
 const C = {
   blue: "#164eeb",
   light: "#51b8ff",
@@ -253,16 +253,10 @@ export function createRenderer(canvas) {
       ctx.globalAlpha = 0.3;
       ellipse(bx, 160, 65, 14, C.red);
       ctx.restore();
-      ctx.fillStyle = C.red;
-      ctx.font = "bold 16px Arial";
-      ctx.textAlign = "center";
-      ctx.fillText("↓", bx, 135);
-      if (age < 2.8) {
+
+      if (age >= BALL_CUE_SECONDS && age < BALL_HIT_SECONDS + 0.16) {
         const by =
-          age < WARNING_SECONDS
-            ? -245
-            : -245 +
-              Math.pow(clamp((age - WARNING_SECONDS) / 1.4, 0, 1), 2) * 430;
+          -410 + Math.pow((age - BALL_CUE_SECONDS) / BALL_FALL_SECONDS, 2) * 570;
         ctx.drawImage(ballArt, bx - 80, by - 80, 160, 160);
         for (let i = -2; i <= 2; i++) {
           const x = bx + i * 24;
@@ -364,6 +358,22 @@ export function createRenderer(canvas) {
     ctx.translate(rect.width / 2, rect.height * 0.51);
     ctx.scale(scale, scale);
     effects(s);
+    if (s.event && Math.abs(s.angle) > 0.16) {
+      ctx.save();
+      const strength = clamp(Math.abs(s.angle) * 2, 0.35, 1);
+      ctx.globalAlpha = strength;
+      for (const side of [-1, 1]) {
+        ctx.save(); ctx.scale(side, 1);
+        ctx.translate(330, 40);
+        shape("M 20 110 L 105 70 L 14 20 L 115 43 L 35 -35 L 145 26 L 75 -135 L 180 13 L 195 -60 L 210 55 L 120 130 Z", C.red);
+        ctx.restore();
+        for (let i = 0; i < 3; i++) {
+          const y = -100 + i * 60;
+          shape(`M ${side*560} ${y} L ${side*340} ${y+45} L ${side*470} ${y+9} Z`, C.cream);
+        }
+      }
+      ctx.restore();
+    }
     const age = s.event ? s.elapsed - s.event.start : 0,
       f = s.event
         ? disturbance(s.event.type, age, s.event.direction)
@@ -371,10 +381,7 @@ export function createRenderer(canvas) {
     ctx.save();
     ctx.translate(s.x * 300, -25 + f.y);
     ctx.rotate(s.angle);
-    if (Math.abs(s.angle) > 0.17) {
-      burst(-390, 25);
-      burst(390, 25, -1);
-    }
+
     if (assets.tray) {
       sprite("tray", -560, -225, 1120, 630);
     } else {
