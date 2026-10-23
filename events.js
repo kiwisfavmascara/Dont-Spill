@@ -2,6 +2,9 @@ import { clamp } from "./physics.js";
 export const ROUND_SECONDS = 30;
 export const EVENT_SECONDS = 4.3;
 export const WARNING_SECONDS = 1.1;
+export const BALL_CUE_SECONDS = 0.45;
+export const BALL_FALL_SECONDS = 0.32;
+export const BALL_HIT_SECONDS = BALL_CUE_SECONDS + BALL_FALL_SECONDS;
 export const EVENT_TYPES = [
   { type: "slope", name: "THE FLOOR IS TIPPING!" },
   { type: "ball", name: "FALLING BALL — MOVE AWAY!" },
