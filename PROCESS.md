@@ -77,3 +77,11 @@ I requested closer liquid styling and a harder experience, aiming for about 55% 
 The spill threshold changed from 0.18 to 0.14 radians, tilt loss from 27 to 46 percentage points per radian per second, and the rapid-motion penalty increased. Floor, alien, slip and bear disturbances were strengthened. The round remains 30 seconds and a level, steady tray still loses nothing. A simplified controller that compensates for 80% of an event with 0.3–0.7 second delay retained approximately 49–56%, excluding ball hits and real hand noise. This is a tuning estimate, not an observed human average. Real player trials are still needed to assess the 55% target.
 
 Checks: seven existing tests passed, JavaScript syntax and whitespace checks passed, and 120 mocked Canvas render states covered five events, both drinks, four fill amounts and three tilt angles without exceptions or unbalanced Canvas saves. These are not a browser screenshot review or a real-camera trial of this revision.
+
+## Surprise timing and comic accents — 23 October 2026
+
+After testing, I felt the ball fell too slowly and the event labels made the surprises too predictable. I requested a much faster drop, one explanation at the start instead of text for each event, and visual accents closer to the approved still image. The attached detail showed a red jagged comic fan and cream speed streaks.
+
+The ball now has a short 0.45-second landing-shadow cue followed by a 0.32-second fall to the collision point, rather than a 1.4-second descent. Its drawn position and collision use shared timing constants. Per-event names, instructions and ball-result messages were removed; tracking, permission and pause messages remain. The opening explains that random surprises can happen. Event order remains shuffled; directions and short gaps now also vary. Large asymmetric red comic fans and cream speed streaks sit behind the tray during stronger tilts, keeping the bright yellow field and the main illustration visible.
+
+JavaScript syntax checks, whitespace checks and all seven existing tests passed. This revision still needs a real browser/camera playtest to judge whether the fast ball feels fair. The 55% average remains a playtest target, not a measured result.
