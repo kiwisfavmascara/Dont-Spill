@@ -43,7 +43,7 @@
         ></canvas>
         <div id="event" role="status"></div>
         <div id="overlay" class="overlay">
-          <div class="card">
+          <div class="card" id="welcome-card">
             <span class="eyebrow">ONE TRAY. TWO HANDS. NO PRESSURE.</span>
             <h1>A balancing<br />act<span>!</span></h1>
             <p>Keep your tray level for 30 seconds.<br />Random surprises can strike at any time.<br />Watch the scene, dodge and keep your balance.</p>
@@ -67,6 +67,17 @@
               model loads from external providers.
             </p>
             <p id="setup-status" role="status" aria-live="polite"></p>
+          </div>
+          <div class="card" id="how-to-play" hidden>
+            <span class="eyebrow">BEFORE YOUR DELIVERY</span>
+            <h2>Don’t spill it!</h2>
+            <p><b>Your goal:</b> carry as much liquid as you can for 30 seconds. Your score is the percentage left in the cup or bowl.</p>
+            <p id="how-controls"></p>
+            <p><b>Stay in view:</b> keep both hands fully visible, including your fingers. Check the camera preview. If either hand leaves the frame, the timer and spills pause; show both hands again and hold steady to resume.</p>
+            <p><b>Expect surprises:</b> unexpected effects may disturb your tray without a text warning. Watch what changes and adjust your hands to keep the liquid level.</p>
+            <p>Small, steady corrections help. Use Pause to take a break.</p>
+            <button id="how-start" class="primary">Got it — let’s start ↗</button>
+            <button id="how-back" class="secondary">Back</button>
           </div>
         </div>
         <div class="camera-box" id="camera-box" hidden>
