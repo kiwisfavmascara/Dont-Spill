@@ -15,3 +15,9 @@
 - No course example code, music, external fonts or borrowed game code is included.
 
 See PROCESS.md for the AI assistance disclosure and outstanding source attribution.
+
+## Web fonts
+
+- Bangers: https://fonts.google.com/specimen/Bangers — heading and score typography.
+- Fredoka: https://fonts.google.com/specimen/Fredoka — body and controls.
+- Fonts are served through Google Fonts; system fonts are used when unavailable. Font source and license files: https://github.com/google/fonts/tree/main/ofl/bangers and https://github.com/google/fonts/tree/main/ofl/fredoka .
