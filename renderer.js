@@ -135,7 +135,9 @@ export function createRenderer(canvas) {
     const fill = clamp(s.remaining / 100, 0, 1),
       surface = g.cy - g.ry + (1 - fill) * g.ry * 2;
     // Elapsed game time freezes all waves when paused or tracking is lost.
-    const energy = clamp(Math.abs(s.angle) * 2.2, 0, 1);
+    const hitAge = s.event?.collided ? s.elapsed - s.event.start - BALL_HIT_SECONDS : -1;
+    const impact = hitAge >= 0 ? Math.exp(-hitAge * 4) : 0;
+    const energy = clamp(Math.abs(s.angle) * 2.2 + impact, 0, 1);
     const wave = Math.sin(s.elapsed * 5.2) * energy * 9;
     const slosh = -s.angle * 0.55 + Math.sin(s.elapsed * 3.7) * energy * 0.025;
     ctx.save();
@@ -382,7 +384,7 @@ export function createRenderer(canvas) {
     }
     const age = s.event ? s.elapsed - s.event.start : 0,
       f = s.event
-        ? disturbance(s.event.type, age, s.event.direction)
+        ? disturbance(s.event.type, age, s.event.direction, s.event.collided)
         : { y: 0 };
     ctx.save();
     ctx.translate(s.x * 300, -25 + f.y);
@@ -399,7 +401,7 @@ export function createRenderer(canvas) {
     if (!assets.tray || !assets.bowl || !assets.cup) {
       ctx.textAlign = "center";
       ctx.fillStyle = C.blue;
-      ctx.font = "13px Arial";
+      ctx.font = "13px Fredoka, Arial";
       ctx.fillText(
         "Loading artwork… if this persists, reload the page.",
         0,
@@ -409,7 +411,7 @@ export function createRenderer(canvas) {
     if (s.phase === "calibrating" || s.lost) {
       ctx.textAlign = "center";
       ctx.fillStyle = C.blue;
-      ctx.font = "bold 14px Arial";
+      ctx.font = "500 14px Fredoka, Arial";
       ctx.fillText(
         s.hands === 2 ? "HOLD STEADY…" : "SHOW BOTH HANDS TO THE CAMERA",
         0,
