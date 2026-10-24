@@ -20,7 +20,17 @@ export function shuffledEvents(random = Math.random) {
   }
   return order;
 }
-export function disturbance(type, age, direction = 1) {
+export function disturbance(type, age, direction = 1, collided = false) {
+  if (type === "ball") {
+    const hitAge = age - BALL_HIT_SECONDS;
+    if (!collided || hitAge < 0 || hitAge > 1.3) return { angle: 0, x: 0, y: 0 };
+    const decay = Math.exp(-hitAge * 3.5);
+    return {
+      angle: direction * Math.cos(hitAge * 17) * 0.62 * decay,
+      x: direction * Math.sin(hitAge * 14) * 0.12 * decay,
+      y: Math.cos(hitAge * 22) * 26 * decay,
+    };
+  }
   const t = age - WARNING_SECONDS;
   if (t < 0) return { angle: 0, x: 0, y: 0 };
   const fade =
