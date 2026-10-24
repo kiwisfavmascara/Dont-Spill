@@ -11,7 +11,7 @@ body {
   margin: 0;
   background: var(--yellow);
   color: var(--blue);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Fredoka", Arial, sans-serif;
 }
 button,
 a,
@@ -19,7 +19,7 @@ input {
   -webkit-tap-highlight-color: transparent;
 }
 button {
-  font: 700 13px Arial;
+  font: 500 14px "Fredoka", Arial, sans-serif;
   cursor: pointer;
   border: 1.5px solid var(--blue);
   color: var(--blue);
@@ -340,3 +340,12 @@ footer a {
     font-size: 12px;
   }
 }
+
+/* Comic headings paired with readable rounded controls and instructions. */
+.brand, h1, h2, .stats strong {
+  font-family: "Bangers", Impact, sans-serif;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+h1 { letter-spacing: 1px; }
+.card p { line-height: 1.45; }
