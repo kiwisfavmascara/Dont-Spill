@@ -1,5 +1,7 @@
 import { clamp } from "./physics.js";
 import { disturbance, WARNING_SECONDS, BALL_CUE_SECONDS, BALL_FALL_SECONDS, BALL_HIT_SECONDS } from "./events.js";
+import { clothSteps } from "./occlusions.js";
+import { createOverlayRenderer } from "./scene-overlays.js";
 const C = {
   blue: "#164eeb",
   light: "#51b8ff",
@@ -37,6 +39,7 @@ export function createRenderer(canvas) {
   for (const [x,y,rx,ry,r] of [[-24,-66,24,12,-0.4],[77,4,9,24,0.1]]) {
     b.beginPath(); b.ellipse(x,y,rx,ry,r,0,7); b.fill();
   }
+  const drawOverlays = createOverlayRenderer(ctx);
   const ready = Promise.all(
     ["tray", "bowl", "cup", "alien", "bear"].map(
       (name) =>
@@ -387,7 +390,8 @@ export function createRenderer(canvas) {
         ? disturbance(s.event.type, age, s.event.direction, s.event.collided)
         : { y: 0 };
     ctx.save();
-    ctx.translate(s.x * 300, -25 + f.y);
+    const steps = clothSteps(s.feedback?.cloth, s.elapsed);
+    ctx.translate(s.x * 300, -25 + f.y + steps.y);
     ctx.rotate(s.angle);
 
     if (assets.tray) {
@@ -398,6 +402,14 @@ export function createRenderer(canvas) {
     container(s);
     ctx.restore();
     fallingBall(s);
+    // Lens effects contain no tray/bowl artwork. Draw once over the live scene.
+    if (s.feedback && (s.phase === "running" || s.phase === "paused")) {
+      ctx.save();
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.scale(rect.width / 1120, rect.height / 630);
+      drawOverlays(s.feedback, s.elapsed, s.drink);
+      ctx.restore();
+    }
     if (!assets.tray || !assets.bowl || !assets.cup) {
       ctx.textAlign = "center";
       ctx.fillStyle = C.blue;

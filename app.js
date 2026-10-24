@@ -9,6 +9,8 @@ import {
   ballCollision,
 } from "./events.js";
 import { createRenderer } from "./renderer.js";
+import { createSceneFeedback, clothSteps } from "./occlusions.js";
+let sceneFeedback = createSceneFeedback();
 const $ = (id) => document.getElementById(id),
   canvas = $("scene"),
   ctx = canvas.getContext("2d"),
@@ -79,6 +81,7 @@ function reset() {
   eventOrder = shuffledEvents();
   eventIndex = 0;
   drops = [];
+  sceneFeedback = createSceneFeedback();
   readyAt = 0;
   lost = false;
 }
@@ -408,6 +411,9 @@ function update(dt, now) {
         nextEvent = elapsed + 0.55 + Math.random() * 0.45;
       }
     }
+    const steps = clothSteps(sceneFeedback.state.cloth, elapsed);
+    force.angle += steps.angle;
+    force.x += steps.x;
     const old = angle;
     angle +=
       (trayTarget(target, force.angle) - angle) *
@@ -417,6 +423,7 @@ function update(dt, now) {
     const loss = spillRate(angle, velocity) * dt;
     remaining = Math.max(0, remaining - loss);
     if (loss > 0.015 && Math.random() < 0.6) spawn(1);
+    sceneFeedback.update(elapsed, remaining, event, eventIndex);
   } else if (phase === "intro") {
     angle = Math.sin(now / 1800) * 0.025;
   }
@@ -487,6 +494,7 @@ function draw() {
     phase,
     hands: hands.length,
     calibrated,
+    feedback: sceneFeedback.state,
     lost,
   });
 }

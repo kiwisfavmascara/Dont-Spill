@@ -19,9 +19,9 @@ Open **http://localhost:8000** in a current desktop Chrome or Edge browser. Do n
 ## How to play
 
 1. Choose tomato soup or coffee.
-2. Select **Enable camera & try it**, allow camera access, and show both open hands, comfortably apart, in the mirrored preview.
+2. Select **Enable camera & try it**, read the instruction page and confirm, allow camera access, then show both open hands in the mirrored preview.
 3. Hold your hands still for calibration. Raise one hand to tilt the tray; move both hands sideways to move it. Use **Recalibrate** if the resting angle feels wrong.
-4. Watch the liquid, remaining percentage, and event warnings. Counteract wind and floor tilt; move away from a falling ball's landing position.
+4. Watch the liquid and remaining percentage. Unexpected disturbances have no text warnings. Balance the tray and move sideways to dodge falling balls.
 5. After 30 seconds, see how much remains. Retry or return home to change your order.
 
 The program uses palm centres, not a special gripping gesture. Small movements are enough. Put the camera far enough away to see both hands.
@@ -39,7 +39,13 @@ The program uses palm centres, not a special gripping gesture. Small movements a
 
 ## Implementation
 
-`physics.js` maps two palm positions to tray angle and horizontal position. `app.js` smooths that input and calculates loss; `events.js` schedules disturbances; `renderer.js` combines separate transparent printed-art sprites with a live Canvas liquid surface. The amount left is state, not a random score: sustained excessive tilt drains it, while ball collisions remove 18 percentage points. Five events appear once each in a randomized order within the 30-second round: floor tilt, falling ball, alien pull, slippery step, and bear chase. Every event has a warning before its stronger disturbance starts. Balls fall at the left or right third of the scene.
+`physics.js` maps two palm positions to tray angle and horizontal position. `app.js` smooths that input and calculates loss; `events.js` schedules disturbances; `renderer.js` combines separate transparent printed-art sprites with a live Canvas liquid surface. The amount left is state, not a random score: sustained excessive tilt drains it, while ball collisions remove 18 percentage points. Five events appear once each in a randomized order within the 30-second round: floor tilt, falling ball, alien pull, slippery step, and bear chase. Most disturbances have a short visual lead-in; event names and text warnings are hidden. Balls fall at the left or right third of the scene.
+
+## Foreground interruptions
+
+A checked cloth and dense fog temporarily obscure the same live scene and overlap the original hazards. The cloth falls in, then drops to one side; fog disperses. The cloth also adds faster footsteps. A small corner spider descends, builds a web and leaves; the web stays until reset and it does not change physics. Losing more than 8 percentage points within 0.6 seconds triggers a drink-colored lens splash that drains downward over 0.8 seconds. Pause and tracking loss freeze animations; retry resets them.
+
+Bangers and Fredoka load from Google Fonts with system fallbacks. No full mockup is pasted over a second tray.
 
 ## Checks
 
@@ -49,7 +55,7 @@ With Node.js installed (no npm install required):
 npm test
 ```
 
-Before submission, also run the camera on a real device, try permission denial, remove one hand, pause/resume, finish a round, and ask another person to try it without explanation. See `PROCESS.md` for unfinished trial requirements.
+Before submission, also run the camera on a real device, try permission denial, remove one hand, pause/resume, finish a round, and ask another person to try it without explanation. See `PROCESS.md` for the first user trial and revisions awaiting another test.
 
 ## Known limitations
 
@@ -57,4 +63,4 @@ This is the second visual prototype. The hands/tray, empty bowl, cup/saucer, ali
 
 ## Credits
 
-See [CREDITS.md](CREDITS.md) for the visual reference, AI assistance and MediaPipe sources. This is Assignment 3, *An interactive experience*. The required user trial is still pending; this is not a completed submission.
+See [CREDITS.md](CREDITS.md) for the visual reference, AI assistance and MediaPipe sources. This is Assignment 3, *An interactive experience*. A first anonymous user trial and resulting revisions are recorded in `PROCESS.md`; revised behavior needs re-testing before submission.
