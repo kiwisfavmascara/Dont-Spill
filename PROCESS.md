@@ -34,26 +34,20 @@ Interruption handling: loss of either hand freezes time and loss, then requires 
 
 Automated physics checks are in `tests/physics.test.js`. Browser checks and camera limitations are recorded in `docs/VERIFICATION.md`. Automated checks are not a substitute for the required human trial.
 
-## User trial — NOT YET CONDUCTED
+## First user trial — 24 October 2026, afternoon
 
-Ask at least one other person to use the experience **before explaining it**. Do not include their name or camera recording in the public repository.
+One participant tried the experience before I explained what it was or how it worked. Their name is omitted from this public record.
 
-Fill this section only after the actual trial:
+**Observation:** The participant did not understand what to do at the start. Unlike my own tests, they did not keep checking whether the camera could see their hands, so their hands frequently left the camera frame. They also did not understand why the tray was being disturbed. Across about three attempts, the liquid quickly reached 0%; this had not happened in my earlier testing. No exact scores or timings were recorded.
 
-- Date and setup:
-- What they tried first:
-- Where they hesitated:
-- Did they understand tilt versus sideways movement?
-- Did they understand the spill feedback and warning?
-- What happened when one hand left the frame?
-- One observed issue:
-- The change made in response (or reason for retaining the design):
-- Result when trying the revision:
+**Decision and response — 25 October 2026:** Add a separate instruction page between choosing a control mode and starting. Explain the 30-second goal, remaining-liquid score, two-hand tilt and sideways movement, keeping both hands fully visible, and tracking interruption/resume. Mention unexpected effects without naming specific hazards or adding per-event text warnings. Include an explicit start button and a back button. Also fix the alien's proportions by preserving its source image aspect ratio.
+
+**Unresolved issue:** The repeated quick 0% results are recorded as a difficulty or tracking concern, not attributed to a proven cause. Difficulty was not changed in this revision. The participant has not yet tested the revised instructions, so their effectiveness and the actual average score remain unverified.
 
 ## Still to do before submission
 
 - Real two-hand camera test and comfort/sensitivity tuning.
-- Actual user trial and one documented decision/revision.
+- Re-test the revised instructions with a participant and record whether they help.
 - Identify and credit P2's original source.
 - Review and explain the hand-to-response code.
 - Re-run from a fresh terminal, verify public repository access when signed out, and submit the repository URL through Canvas.
