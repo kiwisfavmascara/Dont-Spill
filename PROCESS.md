@@ -79,3 +79,13 @@ After testing, I felt the ball fell too slowly and the event labels made the sur
 The ball now has a short 0.45-second landing-shadow cue followed by a 0.32-second fall to the collision point, rather than a 1.4-second descent. Its drawn position and collision use shared timing constants. Per-event names, instructions and ball-result messages were removed; tracking, permission and pause messages remain. The opening explains that random surprises can happen. Event order remains shuffled; directions and short gaps now also vary. Large asymmetric red comic fans and cream speed streaks sit behind the tray during stronger tilts, keeping the bright yellow field and the main illustration visible.
 
 JavaScript syntax checks, whitespace checks and all seven existing tests passed. This revision still needs a real browser/camera playtest to judge whether the fast ball feels fair. The 55% average remains a playtest target, not a measured result.
+
+## Typography, impact and hand authority — 25 October 2026
+
+I selected Bangers for headings and score numerals, paired with Fredoka for instructions and controls. They load from Google Fonts with system fallbacks; external font requests do not contain camera images.
+
+I reported that the fast ball deducted liquid without visibly shaking it. Codex added collision-only damped roll, sideways movement and vertical bounce, plus an impact contribution to the liquid wave. A successful dodge does not trigger this response; the existing 18% contact loss remains.
+
+I also reported that lifting one hand could leave the tray looking level after disturbances. Code review found two possible contributors: calibration accepted a slanted pose as neutral, and an opposite external angle could cancel a deliberate hand angle. Calibration now waits for hands within 0.18 radians of level; hand angle gain is 1.25 and strong deliberate tilts reduce opposing event influence. Tracking loss still freezes the experience. These changes address plausible causes, not a confirmed diagnosis of the observed camera session. Nine automated tests pass, including new checks for impact-only response, impact decay and strong hand authority. Real-camera regression testing remains necessary, including the effect on difficulty and average score.
+
+I requested two vision-obscuring effects as still-image previews before implementation. Earlier exact descriptions could not be reliably recovered, so tomato splashes on the view and steam clouds are explicitly new candidate proposals. Their generated previews are not integrated into the game, pending my selection.
