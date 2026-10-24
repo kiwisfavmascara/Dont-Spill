@@ -1,4 +1,4 @@
-import { clamp, handControl, spillRate } from "./physics.js";
+import { clamp, handControl, spillRate, trayTarget } from "./physics.js";
 import {
   ROUND_SECONDS,
   EVENT_SECONDS,
@@ -333,6 +333,11 @@ function input(now, dt) {
   if (phase === "calibrating") {
     const control = handControl(hands);
     if (!readyAt) readyAt = now;
+    if (Math.abs(control.rawAngle) > 0.18) {
+      readyAt = 0;
+      status("Keep both hands at the same height to set your neutral pose.");
+      return false;
+    }
     neutral = { angle: control.rawAngle, x: control.rawX };
     status(
       `Hold comfortably… ${Math.max(1, Math.ceil((1500 - now + readyAt) / 1000))}`,
@@ -386,10 +391,13 @@ function update(dt, now) {
     let force = { angle: 0, x: 0, y: 0 };
     if (event) {
       const age = elapsed - event.start;
-      force = disturbance(event.type, age, event.direction);
+      force = disturbance(event.type, age, event.direction, event.collided);
       if (event.type === "ball" && age >= BALL_HIT_SECONDS && !event.hit) {
         event.hit = true;
         if (ballCollision(x, event.ballX)) {
+          event.collided = true;
+          event.direction = event.ballX < x ? 1 : -1;
+          force = disturbance(event.type, age, event.direction, true);
           remaining = Math.max(0, remaining - 18);
           spawn(18);
 
@@ -402,7 +410,7 @@ function update(dt, now) {
     }
     const old = angle;
     angle +=
-      (clamp(target + force.angle, -0.85, 0.85) - angle) *
+      (trayTarget(target, force.angle) - angle) *
       (1 - Math.exp(-dt * 8));
     velocity = (angle - old) / Math.max(0.001, dt);
     x += (clamp(targetX + force.x, -0.75, 0.75) - x) * (1 - Math.exp(-dt * 7));
