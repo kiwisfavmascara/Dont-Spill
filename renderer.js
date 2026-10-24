@@ -293,7 +293,13 @@ export function createRenderer(canvas) {
         line(ax + 65, ay + 110, -e.direction * 300, 95, C.blue, 2);
         ctx.restore();
       }
-      sprite("alien", ax - 15, ay, 180, 180);
+      // Preserve the source illustration's aspect ratio rather than squeezing
+      // its wide 1672 × 941 frame into a square.
+      const alien = assets.alien;
+      if (alien) {
+        const width = 210, height = width * alien.naturalHeight / alien.naturalWidth;
+        sprite("alien", ax - 30, ay + 18, width, height);
+      }
     }
     if (e.type === "slip") {
       // A tiny peel and red skid marks communicate a jolt without changing scenery.
