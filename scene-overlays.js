@@ -88,7 +88,7 @@ export function createOverlayRenderer(ctx) {
   function drawSpider(start,time) {
     const age=time-start;if(age<0)return;
     const build=clamp((age-1.15)/1.8,0,1);
-    const cx=1060,cy=32;
+    const cx=1120,cy=0;
     ctx.save();
     // Small corner web remains until reset. It has no force or spill input.
     ctx.globalAlpha=.8;

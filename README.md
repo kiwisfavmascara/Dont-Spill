@@ -45,7 +45,7 @@ The program uses palm centres, not a special gripping gesture. Small movements a
 
 A checked cloth and dense fog temporarily obscure the same live scene and overlap the original hazards. The cloth falls in, then drops to one side; fog disperses. The cloth also adds faster footsteps. A small corner spider descends, builds a web and leaves; the web stays until reset and it does not change physics. Losing more than 8 percentage points within 0.6 seconds triggers a drink-colored lens splash that drains downward over 0.8 seconds. Pause and tracking loss freeze animations; retry resets them.
 
-Bangers and Fredoka load from Google Fonts with system fallbacks. No full mockup is pasted over a second tray.
+Bangers and Barlow load from Google Fonts with system fallbacks. No full mockup is pasted over a second tray.
 
 ## Checks
 

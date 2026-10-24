@@ -282,29 +282,26 @@ export function createRenderer(canvas) {
       ctx.restore();
     }
     if (e.type === "alien") {
-      const ax = e.direction > 0 ? -370 : 235,
-        ay = -285;
+      const travel = clamp(age / 3.8, 0, 1);
+      const progress = travel * travel * (3 - 2 * travel);
+      const alien = assets.alien;
+      const width = 110 + progress * 120;
+      const height = alien ? width * alien.naturalHeight / alien.naturalWidth : width * 0.563;
+      const centerX = -e.direction * (440 - progress * 120);
+      const ax = centerX - width / 2;
+      const ay = -295 + progress * 40 + Math.sin(age * 3) * 4;
+      const beamX = ax + width * 0.48, beamY = ay + height * 0.8;
       if (active) {
         ctx.save();
         ctx.globalAlpha = 0.35;
-        shape(
-          `M ${ax + 65} ${ay + 110} L ${-e.direction * 330} 95 L ${-e.direction * 270} 95 Z`,
-          C.cream,
-        );
-        ctx.globalAlpha = 0.4;
-        ctx.fillStyle = dots(C.blue);
-        ctx.fill(new Path2D(`M ${ax + 65} ${ay + 110} L ${-e.direction * 330} 95 L ${-e.direction * 270} 95 Z`));
+        const beam = new Path2D(`M ${beamX} ${beamY} L ${-e.direction * 330} 95 L ${-e.direction * 270} 95 Z`);
+        ctx.fillStyle = C.cream; ctx.fill(beam);
+        ctx.globalAlpha = 0.4; ctx.fillStyle = dots(C.blue); ctx.fill(beam);
         ctx.globalAlpha = 0.65;
-        line(ax + 65, ay + 110, -e.direction * 300, 95, C.blue, 2);
+        line(beamX, beamY, -e.direction * 300, 95, C.blue, 2);
         ctx.restore();
       }
-      // Preserve the source illustration's aspect ratio rather than squeezing
-      // its wide 1672 × 941 frame into a square.
-      const alien = assets.alien;
-      if (alien) {
-        const width = 210, height = width * alien.naturalHeight / alien.naturalWidth;
-        sprite("alien", ax - 30, ay + 18, width, height);
-      }
+      if (alien) sprite("alien", ax, ay, width, height);
     }
     if (e.type === "slip") {
       // A tiny peel and red skid marks communicate a jolt without changing scenery.
@@ -330,25 +327,32 @@ export function createRenderer(canvas) {
       }
     }
     if (e.type === "bear") {
-      const bounce = active ? Math.sin(age * 14) * 3 : 0;
+      const travel = clamp(age / 3.8, 0, 1);
+      const progress = travel * travel * (3 - 2 * travel);
+      const bounce = active ? Math.sin(age * 14) * (2 + progress * 2) : 0;
+      const bearWidth = 78 + progress * 82;
+      const bear = assets.bear;
+      const bearHeight = bear ? bearWidth * bear.naturalHeight / bear.naturalWidth : bearWidth;
+      const bearX = e.direction * (18 + progress * 25);
+      const bearY = -290 + progress * 26 + bounce;
       ctx.save();
       ctx.globalAlpha = 0.25;
       for (const side of [-1, 1])
         line(side * 45, -155, side * 540, 110, C.cream, 2);
       ctx.restore();
-      sprite("bear", -70, -270 + bounce, 140, 146);
+      sprite("bear", bearX - bearWidth / 2, bearY, bearWidth, bearHeight);
       if (active) {
         for (const side of [-1, 1]) {
           for (let i = 0; i < 4; i++) {
             const t = (age * 1.5 + i * 0.25) % 1;
-            const x = side * (75 + t * 65);
-            ellipse(x, -137 - Math.sin(t * Math.PI) * 16, 3 + t * 8, 3 + t * 5, i % 2 ? C.red : C.cream);
+            const x = bearX + side * (bearWidth * .45 + t * 50);
+            ellipse(x, bearY + bearHeight - Math.sin(t * Math.PI) * 16, 3 + t * 8, 3 + t * 5, i % 2 ? C.red : C.cream);
           }
         }
       }
       if (active) {
         for (const side of [-1, 1]) {
-          burst(side * 120, -195, side, 0.3);
+          burst(bearX + side * bearWidth * .8, bearY + bearHeight * .7, side, 0.3);
           line(side * 480, 60, side * 500, 100, C.blue, 4);
         }
       }
@@ -413,7 +417,7 @@ export function createRenderer(canvas) {
     if (!assets.tray || !assets.bowl || !assets.cup) {
       ctx.textAlign = "center";
       ctx.fillStyle = C.blue;
-      ctx.font = "13px Fredoka, Arial";
+      ctx.font = "13px Barlow, Arial";
       ctx.fillText(
         "Loading artwork… if this persists, reload the page.",
         0,
@@ -423,7 +427,7 @@ export function createRenderer(canvas) {
     if (s.phase === "calibrating" || s.lost) {
       ctx.textAlign = "center";
       ctx.fillStyle = C.blue;
-      ctx.font = "500 14px Fredoka, Arial";
+      ctx.font = "500 14px Barlow, Arial";
       ctx.fillText(
         s.hands === 2 ? "HOLD STEADY…" : "SHOW BOTH HANDS TO THE CAMERA",
         0,

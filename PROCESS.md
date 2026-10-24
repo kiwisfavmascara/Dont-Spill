@@ -99,3 +99,13 @@ Codex implemented foreground-only Canvas layers, not full still-image background
 A lens splash is conditional: more than 8 percentage points lost in a 0.6-second rolling window. It lasts 0.8 seconds including its downward-draining exit, uses the drink's color, and has a 1.4-second retrigger interval. Slow cumulative loss does not trigger it; the splash itself adds no liquid penalty. All layers use active game time and freeze during pause or tracking loss. Reset clears covers, splashes and webs.
 
 Validation: 12 automated tests passed, including rolling-window/retrigger rules, cover timing and cloth-only footsteps; syntax/whitespace checks passed. A native Canvas harness rendered 36 frames across entry/hold/exit states for visual review. A mock-DOM keyboard round exercised instructions, gameplay, pause, finish and retry with actual Canvas drawing. This is not a real-camera/browser playtest; difficulty and visual feel still need my test. Generated stills remain visual references; moving foreground layers are code-drawn and may need further visual refinement.
+
+## Standard Barlow and moving visitors — 25 October 2026
+
+After comparing font specimens, I selected standard Barlow for body copy, buttons and small Canvas status labels, explicitly excluding Barlow Semi Condensed. Bangers remains the heading/score face. Google Fonts, README and font credits were updated.
+
+I noticed that the spider's web floated away from the corner. Its origin is now the actual top-right corner of the normalized gameplay viewport (1120, 0); radiating threads and web arcs touch the top and right edges. The spider remains decorative and the web persists until reset.
+
+I asked for the alien and bear to approach instead of remaining static. Both now move smoothly from smaller, distant positions toward closer positions over the event, increasing in size. The alien's beam follows its moving saucer; the bear's dust follows its moving feet. Both retain their source artwork aspect ratios. Motion uses active elapsed time, so pause and tracking loss freeze their positions and scale. Event forces and scoring rules are unchanged in this revision.
+
+Validation for this revision: 12 existing automated tests passed, syntax and whitespace checks passed, and 12 actual Canvas frames were rendered to inspect distant/near visitor positions and the completed corner web. Real-browser font loading and camera play remain to be checked.

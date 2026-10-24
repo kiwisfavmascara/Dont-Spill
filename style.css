@@ -11,7 +11,7 @@ body {
   margin: 0;
   background: var(--yellow);
   color: var(--blue);
-  font-family: "Fredoka", Arial, sans-serif;
+  font-family: "Barlow", Arial, sans-serif;
 }
 button,
 a,
@@ -19,7 +19,7 @@ input {
   -webkit-tap-highlight-color: transparent;
 }
 button {
-  font: 500 14px "Fredoka", Arial, sans-serif;
+  font: 500 14px "Barlow", Arial, sans-serif;
   cursor: pointer;
   border: 1.5px solid var(--blue);
   color: var(--blue);
