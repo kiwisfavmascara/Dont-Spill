@@ -103,8 +103,25 @@ function keyboard() {
   $("mode-label").textContent = "A / D = TILT · ← / → = MOVE · SPACE = PAUSE";
   begin();
 }
-$("keyboard").onclick = keyboard;
-$("camera").onclick = startCamera;
+function showInstructions(selectedMode) {
+  $("welcome-card").hidden = true;
+  $("how-to-play").hidden = false;
+  $("how-controls").textContent = selectedMode === "camera"
+    ? "Show both open hands fully inside the camera view. Keep them comfortably apart and hold still to calibrate. Raise or lower one hand to tilt; move both hands left or right to move the tray."
+    : "Use A / D to tilt the tray and the left / right arrow keys to move sideways.";
+  $("how-start").onclick = () => {
+    $("how-to-play").hidden = true;
+    $("welcome-card").hidden = false;
+    if (selectedMode === "camera") startCamera();
+    else keyboard();
+  };
+  $("how-back").onclick = () => {
+    $("how-to-play").hidden = true;
+    $("welcome-card").hidden = false;
+  };
+}
+$("keyboard").onclick = () => showInstructions("keyboard");
+$("camera").onclick = () => showInstructions("camera");
 async function startCamera() {
   if (loading) return;
   loading = true;
