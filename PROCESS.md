@@ -6,11 +6,17 @@ I wanted an everyday action or scenario become more interesting. The idea develo
 
 The core loop is: move two hands → change the tray position and tilt → see the liquid move or spill → adjust the hands again. The remaining amount gives the action a consequence.
 
-## Visual development
+## Visual development and typography
 
-I referred to the style of the second reference image (P2) I supplied: a cyan background, pale pink organic shapes, red-orange comic bursts and grainy halftone shadows. I changed it to my own selected palette: bright yellow background, blue tray and shadows, cream bowl, warm peach hands and tomato-red soup. I used ChatGPT image generation to explore these visual directions and selected the version labelled “01 SUNNY POP”. This was a choice of palette and art direction; the resulting reference image was AI-generated, not entirely hand-drawn by me.
+*Design rationale expanded on 26 October 2026.*
 
-The source/artist and original URL of P2 have not been identified yet. This must be completed before submission. The third-party reference itself is not redistributed in this repository. The generated direction is in `assets/visual-direction.png`.
+I compared several visual references and used ChatGPT image generation to explore black-and-white line drawings, flat 2D illustrations, more detailed scenes and different colour combinations. I eventually selected “01 SUNNY POP”: a Pop Art-inspired direction combining comic bursts, bold flat shapes and grainy screen-print textures. The exaggerated visual language suited the absurd interruptions, while the close-up composition kept attention on the two hands, tray and liquid.
+
+One reference I supplied (P2) used cyan, pale pink, red-orange and halftone shadows. I referred to its shapes and print texture, then developed my own palette around the three primary colours: red, yellow and blue. Yellow forms the background, blue defines the tray and shadows, and red highlights the tomato soup and comic accents. Reducing competing colours makes the separate objects feel part of the same visual system and creates a stronger visual impact. Cream and warm skin tones remain for the containers and hands, with small green garnish details; the palette is primarily red, yellow and blue rather than exclusively those three colours.
+
+I paired Bangers headings with standard Barlow for instructions, buttons and small labels. Bangers supports the comic style and makes short titles expressive. I initially tried the rounder Fredoka for smaller text, but felt it made the interface too soft. Barlow gives the instructions a cleaner, more angular appearance without competing with the illustrations. I chose standard Barlow rather than Barlow Semi Condensed to keep longer instructions comfortably spaced. The intention is to make the visual identity energetic while keeping the controls and goal easy to read.
+
+ChatGPT image generation supported the visual and palette exploration; I selected and revised the direction. The resulting mockups and runtime illustrations are AI-assisted, not entirely hand-drawn by me. The selected direction is in `assets/visual-direction.png`. P2's original creator and URL have not yet been identified and still need to be credited before submission. Describing the visual style does not replace that attribution; the third-party reference itself is not redistributed in this repository.
 
 ## First implementation — 22 October 2026
 
