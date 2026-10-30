@@ -12,7 +12,7 @@
 - Google MediaPipe Tasks Vision 0.10.21 and Hand Landmarker model: https://github.com/google-ai-edge/mediapipe (Apache-2.0 project).
 - Implementation API reference: https://ai.google.dev/edge/mediapipe/solutions/vision/hand_landmarker/web_js . Integration was written with Codex using the documented FilesetResolver, createFromOptions and detectForVideo APIs.
 - Library delivery: https://www.jsdelivr.com/ . Model delivery: Google's MediaPipe model storage.
-- No course example code, music, external fonts or borrowed game code is included.
+- No course example code, music or borrowed game code is included. External fonts are credited below.
 
 See PROCESS.md for the AI assistance disclosure and outstanding source attribution.
 

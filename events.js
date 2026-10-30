@@ -20,7 +20,29 @@ export function shuffledEvents(random = Math.random) {
   }
   return order;
 }
-export function disturbance(type, age, direction = 1, collided = false) {
+// Vary the selection and count as well as order, timing, positions and strength.
+export function createEventPlan(random = Math.random) {
+  const count = 4 + Math.floor(random() * 3);
+  const chosen = shuffledEvents(random).slice(0, 3);
+  while (chosen.length < count) {
+    const options = EVENT_TYPES.filter(e => e.type !== chosen.at(-1).type);
+    chosen.push(options[Math.floor(random() * options.length)]);
+  }
+  let time = 1.3 + random() * 1.4;
+  const first = time;
+  const plan = chosen.map(e => {
+    const item = { ...e, start: time, duration: 2.7 + random() * 1.6,
+      direction: random() < .5 ? -1 : 1,
+      ballX: (random() < .5 ? -1 : 1) * (.38 + random() * .32),
+      strength: .85 + random() * .3 };
+    time += item.duration + .5 + random() * 1.5;
+    return item;
+  });
+  const end = plan.at(-1).start + plan.at(-1).duration;
+  const scale = Math.min(1, (ROUND_SECONDS - .7 - first) / (end - first));
+  return plan.map(e => ({...e, start:first+(e.start-first)*scale,duration:e.duration*scale}));
+}
+export function disturbance(type, age, direction = 1, collided = false, duration = EVENT_SECONDS) {
   if (type === "ball") {
     const hitAge = age - BALL_HIT_SECONDS;
     if (!collided || hitAge < 0 || hitAge > 1.3) return { angle: 0, x: 0, y: 0 };
@@ -34,7 +56,7 @@ export function disturbance(type, age, direction = 1, collided = false) {
   const t = age - WARNING_SECONDS;
   if (t < 0) return { angle: 0, x: 0, y: 0 };
   const fade =
-    Math.min(1, t / 0.35) * clamp((EVENT_SECONDS - age) / 0.45, 0, 1);
+    Math.min(1, t / 0.35) * clamp((duration - age) / 0.45, 0, 1);
   if (type === "slope") return { angle: direction * 0.56 * fade, x: 0, y: 0 };
   if (type === "alien")
     return {

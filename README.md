@@ -20,7 +20,7 @@ Open **http://localhost:8000** in a current desktop Chrome or Edge browser. Do n
 
 1. Choose tomato soup or coffee.
 2. Select **Enable camera & try it**, read the instruction page and confirm, allow camera access, then show both open hands in the mirrored preview.
-3. Hold your hands still for calibration. Raise one hand to tilt the tray; move both hands sideways to move it. Use **Recalibrate** if the resting angle feels wrong.
+3. Hold your hands at the same height for calibration, then keep both hands visible during the large English reminder and 3–2–1 countdown. The 30-second timer begins afterward. Red palm markers show detection; the preview guide highlights hands nearing the edge. Raise one hand to tilt the tray; move both hands sideways to move it. Use **Recalibrate** if the resting angle feels wrong.
 4. Watch the liquid and remaining percentage. Unexpected disturbances have no text warnings. Balance the tray and move sideways to dodge falling balls.
 5. After 30 seconds, see how much remains. Retry or return home to change your order.
 
@@ -39,11 +39,11 @@ The program uses palm centres, not a special gripping gesture. Small movements a
 
 ## Implementation
 
-`physics.js` maps two palm positions to tray angle and horizontal position. `app.js` smooths that input and calculates loss; `events.js` schedules disturbances; `renderer.js` combines separate transparent printed-art sprites with a live Canvas liquid surface. The amount left is state, not a random score: sustained excessive tilt drains it, while ball collisions remove 18 percentage points. Five events appear once each in a randomized order within the 30-second round: floor tilt, falling ball, alien pull, slippery step, and bear chase. Most disturbances have a short visual lead-in; event names and text warnings are hidden. Balls fall at the left or right third of the scene.
+`physics.js` maps two palm positions to tray angle and horizontal position. `app.js` smooths that input and calculates loss; `events.js` schedules disturbances; `renderer.js` combines separate transparent printed-art sprites with a live Canvas liquid surface. The amount left is state, not a random score: sustained excessive tilt drains it, while ball collisions remove 18 percentage points. Each round samples 4–6 disturbances from floor tilt, falling ball, alien pull, slippery step and bear chase. At least three types appear, some may repeat or be absent, and no identical types occur consecutively. Timing, duration, direction, force strength and ball landing position vary. Most disturbances have a short visual lead-in; event names and text warnings are hidden. Balls fall at the left or right third of the scene.
 
 ## Foreground interruptions
 
-A checked cloth and dense fog temporarily obscure the same live scene and overlap the original hazards. The cloth falls in, then drops to one side; fog disperses. The cloth also adds faster footsteps. A small corner spider descends, builds a web and leaves; the web stays until reset and it does not change physics. Losing more than 8 percentage points within 0.6 seconds triggers a drink-colored lens splash that drains downward over 0.8 seconds. Pause and tracking loss freeze animations; retry resets them.
+Independently selected cloth or fog interruptions (up to three per round, with varying spacing) temporarily obscure the same live scene and overlap the original hazards. The cloth falls in, then drops to one side; fog disperses. The cloth also adds faster footsteps. A small corner spider descends, builds a web and leaves; the web stays until reset and it does not change physics. Losing more than 8 percentage points within 0.6 seconds triggers a drink-colored lens splash that drains downward over 0.8 seconds. Pause and tracking loss freeze animations; retry resets them.
 
 Bangers and Barlow load from Google Fonts with system fallbacks. No full mockup is pasted over a second tray.
 
@@ -63,4 +63,8 @@ This is the second visual prototype. The hands/tray, empty bowl, cup/saucer, ali
 
 ## Credits
 
-See [CREDITS.md](CREDITS.md) for the visual reference, AI assistance and MediaPipe sources. This is Assignment 3, *An interactive experience*. A first anonymous user trial and resulting revisions are recorded in `PROCESS.md`; revised behavior needs re-testing before submission.
+See [CREDITS.md](CREDITS.md) for the visual reference, AI assistance and MediaPipe sources. This is Assignment 3, *An interactive experience*. Two anonymous user trials and resulting revisions are recorded in `PROCESS.md`; revised behavior needs re-testing before submission.
+
+## Demonstration recording
+
+A demonstration recording has not yet been added. Keyboard mode is already available when the camera model cannot load. A short self-recorded screen capture is an optional supplement; it should show start/countdown, hand control, a disturbance and the result.

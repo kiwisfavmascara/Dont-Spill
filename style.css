@@ -349,3 +349,14 @@ footer a {
 }
 h1 { letter-spacing: 1px; }
 .card p { line-height: 1.45; }
+
+.key-rule {font-size:clamp(22px,3.2vw,30px);font-weight:700;line-height:1.1;}
+.key-control {font-size:19px;font-weight:600;}
+.how-secondary {font-size:13px;}
+#ready-countdown {position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center;background:#ffdf39e8;pointer-events:none;}
+#ready-countdown[hidden] {display:none;}
+#ready-reminder {font-family:Barlow,Arial,sans-serif;font-size:clamp(28px,4.5vw,54px);line-height:1.05;max-width:780px;}
+#ready-number {font-family:Bangers,Impact,sans-serif;font-size:clamp(100px,16vw,190px);line-height:1;}
+.camera-box {z-index:4;}
+.camera-box.tracking-alert {border-color:var(--red);}
+.camera-box.tracking-alert span {background:var(--red);}

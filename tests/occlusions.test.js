@@ -12,11 +12,12 @@ test("splash requires more than eight points in a short window, not slow loss", 
   assert.equal(b.state.splash,null);assert.equal(SPLASH_SECONDS,.8);
 });
 
-test("covers overlap two existing hazards once and retain their original starts", () => {
+test("covers use independent choices and do not restart on the same event", () => {
   const a=createSceneFeedback(()=>.2),event={start:8};
   a.update(8,100,event,2);assert.equal(a.state.cloth.start,8.1);
   a.update(8.2,100,event,2);assert.equal(a.state.cloth.start,8.1);
-  a.update(19,100,{start:19},4);assert.equal(a.state.fog.start,19.1);
+  a.update(19,100,{start:19},4);assert.equal(a.state.cloth.start,19.1);
+  assert.equal(a.state.fog,null);
   const prior=JSON.stringify(a.state);a.update(19,100,{start:19},4);
   assert.equal(JSON.stringify(a.state),prior);
 });
@@ -28,5 +29,5 @@ test("only cloth adds footsteps; reset clears splashes and covers", () => {
   const a=createSceneFeedback(()=>.2);a.update(.1,80,null,0);
   const fresh=createSceneFeedback(()=>.2);
   assert.equal(fresh.state.splash,null);assert.equal(fresh.state.cloth,null);
-  assert.ok(fresh.state.spiderStart>=4&&fresh.state.spiderStart<=6);
+  assert.ok(fresh.state.spiderStart>=3&&fresh.state.spiderStart<=21);
 });

@@ -45,6 +45,10 @@
           aria-label="Two hands balancing a tray with a bowl of soup"
         ></canvas>
         <div id="event" role="status"></div>
+        <div id="ready-countdown" hidden role="status" aria-live="polite">
+          <strong id="ready-reminder">KEEP BOTH HANDS IN CAMERA VIEW</strong>
+          <span id="ready-number"></span>
+        </div>
         <div id="overlay" class="overlay">
           <div class="card" id="welcome-card">
             <span class="eyebrow">ONE TRAY. TWO HANDS. NO PRESSURE.</span>
@@ -74,11 +78,10 @@
           <div class="card" id="how-to-play" hidden>
             <span class="eyebrow">BEFORE YOUR DELIVERY</span>
             <h2>Don’t spill it!</h2>
-            <p><b>Your goal:</b> carry as much liquid as you can for 30 seconds. Your score is the percentage left in the cup or bowl.</p>
-            <p id="how-controls"></p>
-            <p><b>Stay in view:</b> keep both hands fully visible, including your fingers. Check the camera preview. If either hand leaves the frame, the timer and spills pause; show both hands again and hold steady to resume.</p>
-            <p><b>Expect surprises:</b> unexpected effects may disturb your tray without a text warning. Watch what changes and adjust your hands to keep the liquid level.</p>
-            <p>Small, steady corrections help. Use Pause to take a break.</p>
+            <p class="key-rule">KEEP BOTH HANDS IN CAMERA VIEW</p>
+            <p id="how-controls" class="key-control"></p>
+            <p class="key-control">30 SECONDS. DON’T SPILL IT.</p>
+            <p class="how-secondary">Expect random surprises. Keep your hands inside the preview’s guide. If a hand leaves the camera view, play pauses until both return.</p>
             <button id="how-start" class="primary">Got it — let’s start ↗</button>
             <button id="how-back" class="secondary">Back</button>
           </div>

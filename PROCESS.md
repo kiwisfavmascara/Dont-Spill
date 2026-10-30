@@ -52,6 +52,8 @@ One participant tried the experience before I explained what it was or how it wo
 
 ## Still to do before submission
 
+Status updated 31 October: two participant trials are now documented. Re-testing the latest revision is still pending. Older dated entries below describe the state at their respective dates.
+
 - Real two-hand camera test and comfort/sensitivity tuning.
 - Re-test the revised instructions with a participant and record whether they help.
 - Identify and credit P2's original source.
@@ -115,3 +117,15 @@ I noticed that the spider's web floated away from the corner. Its origin is now 
 I asked for the alien and bear to approach instead of remaining static. Both now move smoothly from smaller, distant positions toward closer positions over the event, increasing in size. The alien's beam follows its moving saucer; the bear's dust follows its moving feet. Both retain their source artwork aspect ratios. Motion uses active elapsed time, so pause and tracking loss freeze their positions and scale. Event forces and scoring rules are unchanged in this revision.
 
 Validation for this revision: 12 existing automated tests passed, syntax and whitespace checks passed, and 12 actual Canvas frames were rendered to inspect distant/near visitor positions and the completed corner web. Real-browser font loading and camera play remain to be checked.
+
+## Second user trial — 29 October 2026, Thursday afternoon
+
+A classmate (Participant A, anonymised) tried the experience. Their hands moved outside the camera frame twice, causing pauses that interrupted the experience. I noticed that players did not always actively check the preview. This is two observed interruptions, not a claim that hands were frequently out of view. No additional score or timing data was recorded.
+
+**Decision and revision — 31 October 2026:** I rejected adding a practice exercise. Instead, I requested clearer instruction hierarchy and a large English reminder, “KEEP BOTH HANDS IN CAMERA VIEW”, together with a 3–2–1 countdown after Start and camera calibration. The countdown does not consume the 30-second round; if either hand is lost before play, it resets to three until both return. Keyboard mode also has a countdown with its own English reminder. The main rules are larger/bolder, with secondary explanation reduced.
+
+The preview now shows one red dot with a cream outline at each detected palm centre, a hand count and a dashed safe-area guide. Approaching the preview edge highlights the guide and prompts the player to move toward the centre. Missing detections remove the markers. Camera loss still freezes time and spilling; no new gameplay penalty was added for tracking failure.
+
+I also reported that five recent rounds felt too similar. Previously each round contained all five hazards once, with covers tied to the second and fourth events. Codex changed this to 4–6 sampled disturbances, at least three distinct types, no immediate repeats, and varied start times, durations, directions, strengths and ball positions. Cloth/fog selection and spacing now vary independently (up to three covers), and spider appearance varies from 3–21 seconds. Conditional splashes remain tied to actual rapid liquid loss. The 55% score target has not been re-measured after these changes.
+
+Validation: 13 automated tests passed, including 150 seeded random plans checked for variety, bounds and completion within 30 seconds. A simulated hand detector with native Canvas drawing exercised initial countdown, hand loss resetting that countdown, gameplay tracking loss, pause, result and retry. This is simulated camera validation, not a real-browser or human test of the revision. The participant has not yet tried these changes.

@@ -20,19 +20,20 @@ export function clothSteps(cover, time) {
 }
 
 export function createSceneFeedback(random = Math.random) {
-  const covers = random() < 0.5 ? ["cloth", "fog"] : ["fog", "cloth"];
-  const state = { cloth: null, fog: null, splash: null, spiderStart: 4 + random() * 2 };
+  let coverCount = 0, nextCover = 4 + random() * 4;
+  const state = { cloth: null, fog: null, splash: null, spiderStart: 3 + random() * 18 };
   let samples = [{ time: 0, amount: 100 }], lastCoverEvent = -1;
   let lastSplash = -10;
   return {
     state,
     update(time, amount, event, eventIndex) {
-      // Two covers overlap existing hazards; they do not replace the five events.
-      // Their second second coincides with the hazard's force onset at 1.1s.
-      if (event && (eventIndex === 2 || eventIndex === 4) && lastCoverEvent !== event.start) {
-        const kind = covers[eventIndex === 2 ? 0 : 1];
-        state[kind] = { start: event.start + 0.1, direction: random() < 0.5 ? -1 : 1 };
+      // Independent cover choices and spacing: no fixed second/fourth-event pattern.
+      if (event && time >= nextCover && lastCoverEvent !== event.start && coverCount < 3) {
+        const kind = random() < .5 ? "cloth" : "fog";
+        state[kind] = { start: time + random() * .5, direction: random() < .5 ? -1 : 1 };
         lastCoverEvent = event.start;
+        coverCount++;
+        nextCover = time + 6 + random() * 4;
       }
       while (samples.length > 1 && samples[1].time < time - SPLASH_WINDOW) samples.shift();
       if (samples[0].time >= time - SPLASH_WINDOW - 0.06 &&

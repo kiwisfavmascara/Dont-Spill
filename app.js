@@ -1,16 +1,15 @@
 import { clamp, handControl, spillRate, trayTarget } from "./physics.js";
 import {
   ROUND_SECONDS,
-  EVENT_SECONDS,
-  WARNING_SECONDS,
   BALL_HIT_SECONDS,
-  shuffledEvents,
+  createEventPlan,
   disturbance,
   ballCollision,
 } from "./events.js";
 import { createRenderer } from "./renderer.js";
 import { createSceneFeedback, clothSteps } from "./occlusions.js";
 let sceneFeedback = createSceneFeedback();
+let countdownLeft = 3, nearEdge = false;
 const $ = (id) => document.getElementById(id),
   canvas = $("scene"),
   ctx = canvas.getContext("2d"),
@@ -45,7 +44,6 @@ let angle = 0,
   elapsed = 0,
   previous = performance.now(),
   event = null,
-  nextEvent = 2.5,
   eventIndex = 0,
   drops = [],
   keys = new Set(),
@@ -77,16 +75,17 @@ function reset() {
   remaining = 100;
   elapsed = 0;
   event = null;
-  nextEvent = 2 + Math.random() * 0.5;
-  eventOrder = shuffledEvents();
+  eventOrder = createEventPlan();
   eventIndex = 0;
   drops = [];
   sceneFeedback = createSceneFeedback();
   readyAt = 0;
   lost = false;
+  countdownLeft = 3;
 }
 function begin() {
-  phase = "running";
+  phase = "countdown";
+  countdownLeft = 3;
   $("overlay").classList.add("hidden");
   status("Steady hands. Your delivery starts now.");
   controls();
@@ -110,7 +109,7 @@ function showInstructions(selectedMode) {
   $("welcome-card").hidden = true;
   $("how-to-play").hidden = false;
   $("how-controls").textContent = selectedMode === "camera"
-    ? "Show both open hands fully inside the camera view. Keep them comfortably apart and hold still to calibrate. Raise or lower one hand to tilt; move both hands left or right to move the tray."
+    ? "Raise one hand to tilt. Move both hands sideways to dodge."
     : "Use A / D to tilt the tray and the left / right arrow keys to move sideways.";
   $("how-start").onclick = () => {
     $("how-to-play").hidden = true;
@@ -276,7 +275,7 @@ function track(now) {
   if (!model || !stream || video.readyState < 2 || now - camTick < 65) return;
   camTick = now;
   if (video.currentTime === lastVideo) {
-    if (now - lastSeen > 500) hands = [];
+    if (now - lastSeen > 500) { hands = []; drawTracking([]); }
     return;
   }
   lastVideo = video.currentTime;
@@ -293,6 +292,7 @@ function track(now) {
     drawTracking(result.landmarks);
   } catch (err) {
     hands = [];
+    drawTracking([]);
     status("Tracking interrupted. Stop camera and try keyboard mode.");
   }
 }
@@ -302,15 +302,21 @@ function drawTracking(landmarks) {
   c.height = 480;
   const g = c.getContext("2d");
   g.clearRect(0, 0, 640, 480);
+  nearEdge = landmarks.some(l => l.some(p => p.x < .08 || p.x > .92 || p.y < .08 || p.y > .92));
+  g.strokeStyle = nearEdge ? "#ff4634" : "#fff8e7";
+  g.lineWidth = nearEdge ? 5 : 2;
+  g.setLineDash([12,8]);g.strokeRect(640*.08,480*.08,640*.84,480*.84);g.setLineDash([]);
   for (const l of landmarks) {
-    for (const i of [0, 5, 9, 13, 17]) {
-      g.beginPath();
-      g.arc(l[i].x * 640, l[i].y * 480, 6, 0, Math.PI * 2);
-      g.fillStyle = "#ffdf39";
-      g.fill();
-    }
+    const palm = [0,5,9,13,17].map(i => l[i]);
+    const px=palm.reduce((sum,p)=>sum+p.x,0)/5*640;
+    const py=palm.reduce((sum,p)=>sum+p.y,0)/5*480;
+    g.beginPath();g.arc(px,py,17,0,Math.PI*2);
+    g.fillStyle="#ff4634";g.fill();g.strokeStyle="#fff8e7";g.lineWidth=5;g.stroke();
   }
-  $("tracking").textContent = `${landmarks.length}/2 hands visible`;
+  $("camera-box").classList.toggle("tracking-alert", nearEdge || landmarks.length!==2);
+  $("tracking").textContent = landmarks.length===2
+    ? (nearEdge ? "MOVE HANDS TOWARD THE CENTRE" : "2/2 HANDS DETECTED")
+    : landmarks.length+"/2 HANDS — SHOW BOTH HANDS";
 }
 function input(now, dt) {
   if (mode === "keyboard") {
@@ -349,7 +355,8 @@ function input(now, dt) {
       calibrated = true;
       lost = true;
       readyAt = 0;
-      phase = "running";
+      phase = "countdown";
+      countdownLeft = 3;
       controls();
     }
     return false;
@@ -367,12 +374,23 @@ function input(now, dt) {
   const control = handControl(hands, neutral);
   target = control.angle;
   targetX = control.x;
+  status(nearEdge ? "Move both hands toward the centre of the camera view." : "Keep the liquid level. Small moves are enough.");
   return true;
 }
-let eventOrder = shuffledEvents();
+let eventOrder = createEventPlan();
 function update(dt, now) {
   track(now);
   let live = false;
+  if (phase === "countdown") {
+    const visible = mode !== "camera" || (hands.length === 2 && now-lastSeen < 350);
+    countdownLeft = visible ? Math.max(0, countdownLeft-dt) : 3;
+    if (!visible) status("Show both hands to start the countdown.");
+    if (countdownLeft === 0) { phase="running";lost=false;readyAt=0;controls(); }
+  }
+  const readyVisible = phase === "calibrating" || phase === "countdown";
+  $("ready-countdown").hidden = !readyVisible;
+  $("ready-reminder").textContent = mode === "camera" ? "KEEP BOTH HANDS IN CAMERA VIEW" : "GET READY — KEEP THE TRAY LEVEL";
+  $("ready-number").textContent = phase === "countdown" ? String(Math.max(1,Math.ceil(countdownLeft))) : "";
   if (phase === "running" || phase === "calibrating")
     live = input(now, dt) && phase === "running";
   if (live) {
@@ -381,36 +399,34 @@ function update(dt, now) {
       finish();
       return;
     }
-    if (!event && elapsed >= nextEvent && eventIndex < eventOrder.length) {
+    if (!event && eventIndex < eventOrder.length && elapsed >= eventOrder[eventIndex].start) {
       const e = eventOrder[eventIndex++];
       event = {
         ...e,
         start: elapsed,
-        direction: Math.random() < 0.5 ? 1 : -1,
-        ballX: Math.random() < 0.5 ? -0.6 : 0.6,
         hit: false,
       };
     }
     let force = { angle: 0, x: 0, y: 0 };
     if (event) {
       const age = elapsed - event.start;
-      force = disturbance(event.type, age, event.direction, event.collided);
+      force = disturbance(event.type, age, event.direction, event.collided, event.duration);
       if (event.type === "ball" && age >= BALL_HIT_SECONDS && !event.hit) {
         event.hit = true;
         if (ballCollision(x, event.ballX)) {
           event.collided = true;
           event.direction = event.ballX < x ? 1 : -1;
-          force = disturbance(event.type, age, event.direction, true);
+          force = disturbance(event.type, age, event.direction, true, event.duration);
           remaining = Math.max(0, remaining - 18);
           spawn(18);
 
         }
       }
-      if (age > EVENT_SECONDS) {
+      if (age > event.duration) {
         event = null;
-        nextEvent = elapsed + 0.55 + Math.random() * 0.45;
       }
     }
+    if (event) { force.angle *= event.strength; force.x *= event.strength; }
     const steps = clothSteps(sceneFeedback.state.cloth, elapsed);
     force.angle += steps.angle;
     force.x += steps.x;

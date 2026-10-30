@@ -1,4 +1,8 @@
-# Verification — first prototype, 22 October 2026
+# Verification
+
+Current status: two anonymous participant trials (24 and 29 October) are documented in PROCESS.md. Earlier sections below are dated historical test snapshots, not current claims that no trial has occurred.
+
+## First prototype — 22 October 2026
 
 ## Passed
 
@@ -25,3 +29,12 @@ Do not present automated checks as a user trial.
 - Selected coffee cup and tomato soup screenshots are actual runtime captures. The generated transparent artwork was inspected in context.
 - Keyboard tilt still drains the liquid; pause freezes the timer; narrow viewport has no horizontal overflow.
 - Real camera recognition and comfort still require device/user testing after this revision. The required trial with another person remains pending.
+
+## Countdown, tracking feedback and random plans — 31 October 2026
+
+- 13 tests pass. 150 seeded round plans vary event counts and sequences, include at least three types, avoid consecutive identical types and finish before 30 seconds.
+- JavaScript syntax and whitespace checks pass.
+- A mock DOM, synthetic two-hand detector and actual native Canvas drawing exercised the instruction page, calibration and 3–2–1 countdown. The round timer stays at 30 during countdown; losing hands resets the countdown. Losing hands during gameplay freezes time. Pause, finish and retry were checked.
+- Red palm dots, edge guide and hand count are implemented. Real-camera readability and edge-warning sensitivity still require a real device check.
+- No human test of this newest revision is claimed. The participant A observation was two out-of-frame interruptions, not frequent loss.
+- Optional self-recorded demo and a final current screenshot have not yet been supplied.

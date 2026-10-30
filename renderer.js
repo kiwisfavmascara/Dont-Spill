@@ -391,7 +391,7 @@ export function createRenderer(canvas) {
     }
     const age = s.event ? s.elapsed - s.event.start : 0,
       f = s.event
-        ? disturbance(s.event.type, age, s.event.direction, s.event.collided)
+        ? disturbance(s.event.type, age, s.event.direction, s.event.collided, s.event.duration)
         : { y: 0 };
     ctx.save();
     const steps = clothSteps(s.feedback?.cloth, s.elapsed);
