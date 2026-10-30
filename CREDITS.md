@@ -21,3 +21,8 @@ See PROCESS.md for the AI assistance disclosure and outstanding source attributi
 - Bangers: https://fonts.google.com/specimen/Bangers — heading and score typography.
 - Barlow: https://fonts.google.com/specimen/Barlow — body and controls.
 - Fonts are served through Google Fonts; system fonts are used when unavailable. Font source and license files: https://github.com/google/fonts/tree/main/ofl/bangers and https://github.com/google/fonts/tree/main/ofl/barlow .
+
+## Supplementary Pinterest reference
+
+- Image: eight repeated martini-glass illustrations in contrasting colours, supplied by the project author from Pinterest on 31 October 2026. Included only as a labelled visual reference at `docs/references/pinterest-martini-colour-study.jpg`, not as runtime artwork.
+- Original creator, title and exact Pinterest Pin URL: not verified. No attribution to Andy Warhol or another named artist is claimed. This is separate from the earlier P2 reference. No ownership or open licence is claimed for this reference image.
