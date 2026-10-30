@@ -22,7 +22,7 @@ ChatGPT image generation supported the visual and palette exploration; I selecte
 
 ![Pinterest reference: eight repeated martini-glass illustrations in contrasting colour combinations](docs/references/pinterest-martini-colour-study.jpg)
 
-*Reference supplied by me from Pinterest. Pinterest source supplied by me: [Pin reference](https://pin.it/4yfYqPwWG). Original creator and work title have not been verified. This is a third-party reference image, not my own artwork or a game asset.*
+*Reference supplied by me from Pinterest. Found via [Pinterest](https://pin.it/4yfYqPwWG). Matching illustration published in The Daily Beast, [“The Coming of the Martini: An Annotated Timeline”](https://www.thedailybeast.com/the-coming-of-the-martini-an-annotated-timeline/), with the image credit “Getty”. The article shows a wider five-column version; the supplied reference has four columns. The individual illustrator and original artwork title are not identified on that page. This is a third-party reference image, not my own artwork or a game asset.*
 
 This image helps explain the Pop Art influence: it repeats an everyday object while changing the saturated background and object colours. I was interested in the bold contrast and graphic treatment of familiar objects. For the game, I used a more limited red, yellow and blue palette, combined with retro comic shapes and screen-print grain, to make the different objects feel visually consistent. Bangers reinforces the expressive comic character, while standard Barlow keeps the smaller instructions clear. I am adding this image as a supplementary reference for the design explanation; it is distinct from the earlier cyan/pink P2 reference.
 
