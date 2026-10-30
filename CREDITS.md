@@ -26,4 +26,5 @@ See PROCESS.md for the AI assistance disclosure and outstanding source attributi
 
 - Image: eight repeated martini-glass illustrations in contrasting colours, supplied by the project author from Pinterest on 31 October 2026. Included only as a labelled visual reference at `docs/references/pinterest-martini-colour-study.jpg`, not as runtime artwork.
 - Pinterest source supplied by the project author: https://pin.it/4yfYqPwWG .
-- Original creator and title: not verified. No attribution to Andy Warhol or another named artist is claimed. This is separate from the earlier P2 reference. No ownership or open licence is claimed for this reference image.
+- Verified publication source: The Daily Beast, [“The Coming of the Martini: An Annotated Timeline”](https://www.thedailybeast.com/the-coming-of-the-martini-an-annotated-timeline/), published 30 March 2018. Its matching, wider illustration is credited **Getty**. The page does not identify the individual illustrator or an original artwork title; the article's writers are not credited as the image's creators.
+- No attribution to Andy Warhol or another named artist is claimed. This is separate from the earlier P2 reference. No ownership or open licence is claimed for the reference image.
