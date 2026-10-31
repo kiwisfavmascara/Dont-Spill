@@ -51,9 +51,12 @@
         </div>
         <div id="overlay" class="overlay">
           <div class="card" id="welcome-card">
+            <div class="welcome-intro">
             <span class="eyebrow">ONE TRAY. TWO HANDS. NO PRESSURE.</span>
             <h1>A balancing<br />act<span>!</span></h1>
             <p>Keep your tray level for 30 seconds.<br />Random surprises can strike at any time.<br />Watch the scene, dodge and keep your balance.</p>
+            </div>
+            <div class="welcome-actions">
             <fieldset>
               <legend>What are you carrying?</legend>
               <label
@@ -74,6 +77,7 @@
               model loads from external providers.
             </p>
             <p id="setup-status" role="status" aria-live="polite"></p>
+            </div>
           </div>
           <div class="card" id="how-to-play" hidden>
             <span class="eyebrow">BEFORE YOUR DELIVERY</span>
@@ -86,17 +90,18 @@
             <button id="how-back" class="secondary">Back</button>
           </div>
         </div>
-        <div class="camera-box" id="camera-box" hidden>
-          <video id="video" autoplay muted playsinline></video
-          ><canvas id="landmarks"></canvas
-          ><span id="tracking">Looking for two hands…</span>
-        </div>
         <div class="stage-footer">
           <span id="mode-label">✦ SMALL MOVES. STEADY HANDS.</span
           ><span id="tilt-label">LEVEL</span>
         </div>
       </section>
-      <section class="instructions">
+      <section class="instructions" aria-label="Camera and quick controls">
+        <div class="camera-box" id="camera-box" hidden>
+          <video id="video" autoplay muted playsinline></video
+          ><canvas id="landmarks"></canvas
+          ><span id="tracking">Looking for two hands…</span>
+        </div>
+
         <div>
           <b>01 / HOLD</b>
           <p>Show both open hands to the camera.</p>

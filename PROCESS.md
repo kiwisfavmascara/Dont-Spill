@@ -132,6 +132,14 @@ The current concise English start reminder and countdown are unchanged; I asked 
 
 Validation: 15 tests passed, including 150 seeded schedules with a sustained disturbance during the final second, and checks that the spider stays at the endpoint of its growing web and leaves it behind. Six actual Canvas spider frames were rendered and representative building/completed states inspected. Real-camera playtesting of this revision remains to be done. The 55% target is still not a measured human average.
 
+## Viewport layout refinement — 1 November 2026
+
+My screenshot showed that the header, status area, fixed-height game stage, instructions and footer stacked into a page taller than the laptop window. I asked for a rearranged layout rather than simply scaling everything down.
+
+The desktop layout now uses a compact top header/status area, a large game stage on the left, and a right-hand rail for the camera preview, quick controls and Recalibrate. The welcome card separates its title/explanation and drink/start controls into two columns. The instruction card also uses horizontal space. The stage fills the remaining viewport height instead of adding a fixed 660-pixel block below the header. All existing camera, countdown and gameplay element IDs remain intact.
+
+Headless Chromium checks found no horizontal or vertical page overflow at 1280×720, 1366×768, 1440×900, 1920×1080, 1024×768 and 900×650. Welcome/instruction button placement and the relocated preview were checked, with no uncaught browser errors. A 390-pixel narrow viewport keeps natural scrolling and no horizontal overflow; short or zoomed windows can also scroll rather than clip controls. Font fallbacks remain available when external fonts cannot load. Gameplay rules were not changed by this layout revision.
+
 ## AI tools used
 
 - ChatGPT conversation: concept development, interaction ideas, visual exploration and prompt drafting.
