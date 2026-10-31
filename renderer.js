@@ -375,17 +375,17 @@ export function createRenderer(canvas) {
     effects(s);
     if (s.event && Math.abs(s.angle) > 0.16) {
       ctx.save();
-      const strength = clamp(Math.abs(s.angle) * 2, 0.35, 1);
-      ctx.globalAlpha = strength;
+      ctx.globalAlpha = 1;
       for (const side of [-1, 1]) {
-        ctx.save(); ctx.scale(side, 1);
-        ctx.translate(330, 40);
-        shape("M 20 110 L 105 70 L 14 20 L 115 43 L 35 -35 L 145 26 L 75 -135 L 180 13 L 195 -60 L 210 55 L 120 130 Z", C.red);
+        ctx.save();
+        ctx.translate(side * 300, -50);
+        ctx.scale(-side, 1);
+        // Separate jagged rays converge behind the bowl, like the approved still.
+        // Avoid a broad arrow base and cream streaks crossing the red artwork.
+        shape("M 38 52 L -78 -176 L 10 -72 L -5 -130 L 75 61 Z", C.red);
+        shape("M 48 64 L -175 -96 L -70 18 L -127 -7 L 82 95 Z", C.red);
+        shape("M 58 90 L -178 68 L -95 108 L -152 112 L 100 135 Z", C.red);
         ctx.restore();
-        for (let i = 0; i < 3; i++) {
-          const y = -100 + i * 60;
-          shape(`M ${side*560} ${y} L ${side*340} ${y+45} L ${side*470} ${y+9} Z`, C.cream);
-        }
       }
       ctx.restore();
     }

@@ -150,6 +150,12 @@ Headless browser checks found no page overflow at 1280×720, 1366×768, 1440×90
 
 I accepted the restored centred layout and requested an updated README screenshot. Codex captured the running browser experience at 1440×900 in keyboard demonstration mode with the actual Bangers and Barlow font files loaded. The image is a runtime capture, not an AI mockup or a claim of real-camera validation. It replaces the earlier screenshot at `docs/screenshot.png`.
 
+## Comic burst refinement and replacement screenshot — 1 November 2026
+
+I disliked the arrow-like impact motif and the cream speed lines crossing it. I supplied a detail from the approved still as the reference: separate red jagged rays spreading outward and converging behind the bowl. Codex replaced the broad arrow base with three separate comic rays on each side and removed the crossing streaks. The burst uses solid red rather than blending into orange. Physics and controls are unchanged.
+
+The README screenshot was recaptured from an earlier, clearer gameplay moment without the burst. It remains an actual keyboard-demo browser capture at 1440×900 with the Bangers/Barlow fonts loaded. The revised burst was also checked in a separate rendered gameplay frame. JavaScript syntax and whitespace checks passed.
+
 ## AI tools used
 
 - ChatGPT conversation: concept development, interaction ideas, visual exploration and prompt drafting.
