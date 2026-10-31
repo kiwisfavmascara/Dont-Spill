@@ -146,6 +146,10 @@ I rejected the left/right layout because it weakened the main visual focus. Code
 
 Headless browser checks found no page overflow at 1280×720, 1366×768, 1440×900, 1920×1080 and 1024×768. Shorter and narrow windows keep natural scrolling rather than clipping content. The welcome/instruction controls and bottom-right preview placement were checked with no uncaught page errors. This supersedes the side-rail design described in the previous entry; no gameplay or tracking logic changed.
 
+## Current gameplay screenshot — 1 November 2026
+
+I accepted the restored centred layout and requested an updated README screenshot. Codex captured the running browser experience at 1440×900 in keyboard demonstration mode with the actual Bangers and Barlow font files loaded. The image is a runtime capture, not an AI mockup or a claim of real-camera validation. It replaces the earlier screenshot at `docs/screenshot.png`.
+
 ## AI tools used
 
 - ChatGPT conversation: concept development, interaction ideas, visual exploration and prompt drafting.

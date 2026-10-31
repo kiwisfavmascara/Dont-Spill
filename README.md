@@ -2,7 +2,9 @@
 
 A short, playful browser experience for students and other desktop users taking a break. Hold up both hands, balance a tray, and deliver as much soup as possible while the world interferes.
 
-![First playable version](docs/screenshot.png)
+![Current Don't Spill gameplay with the centred layout](docs/screenshot.png)
+
+*Actual browser screenshot, 1 November 2026. Shown in keyboard demonstration mode; this capture does not demonstrate real-camera tracking.*
 
 ## Development in chronological order
 
