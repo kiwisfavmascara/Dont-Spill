@@ -1,24 +1,26 @@
 # Process
 
+Development entries are ordered by date. Each dated entry describes the state at that time; later revisions supersede earlier behaviour. The initial visual section includes reference details added on 31 October. AI disclosure and the current checklist follow the timeline.
+
 ## Starting idea
 
 I wanted an everyday action or scenario become more interesting. The idea developed from opening a cupboard or fridge and making the whole scene tilt into carrying a tray while absurd events happen around it. Then I come up with the idea of holding a type of liquid to avoid spilling it.
 
 The core loop is: move two hands → change the tray position and tilt → see the liquid move or spill → adjust the hands again. The remaining amount gives the action a consequence.
 
-## Visual development and typography
+## Initial visual direction and typography
 
-*Design rationale expanded on 26 October 2026.*
+*This section describes the initial visual direction. Reference details were supplemented on 31 October 2026; this was documentation of the earlier design exploration, not a new visual direction selected on that date.*
 
 I compared several visual references and used ChatGPT image generation to explore black-and-white line drawings, flat 2D illustrations, more detailed scenes and different colour combinations. I eventually selected a Pop Art-inspired direction with retro comic illustration and screen-print textures. Comic bursts, bold flat shapes and grainy halftone shadows were the visual features I selected, rather than treating the game as a strict example of one art movement. The exaggerated visual language suited the absurd interruptions, while the close-up composition kept attention on the two hands, tray and liquid.
 
 One reference I supplied used cyan, pale pink, red-orange and halftone shadows. I referred to its shapes and print texture, then developed my own palette around the three primary colours: red, yellow and blue. Yellow forms the background, blue defines the tray and shadows, and red highlights the tomato soup and comic accents. Reducing competing colours makes the separate objects feel part of the same visual system and creates a stronger visual impact. Cream and warm skin tones remain for the containers and hands, with small green garnish details; the palette is primarily red, yellow and blue rather than exclusively those three colours.
 
-I paired Bangers headings with standard Barlow for instructions, buttons and small labels. Bangers supports the comic style and makes short titles expressive. I initially tried the rounder Fredoka for smaller text, but felt it made the interface too soft. Barlow gives the instructions a cleaner, more angular appearance without competing with the illustrations. I chose standard Barlow rather than Barlow Semi Condensed to keep longer instructions comfortably spaced. The intention is to make the visual identity energetic while keeping the controls and goal easy to read.
+Typography was refined during development, with the final pairing selected on 25 October: Bangers headings with standard Barlow for instructions, buttons and small labels. Bangers supports the comic style and makes short titles expressive. I initially tried the rounder Fredoka for smaller text, but felt it made the interface too soft. Barlow gives the instructions a cleaner, more angular appearance without competing with the illustrations. I chose standard Barlow rather than Barlow Semi Condensed to keep longer instructions comfortably spaced. The intention is to make the visual identity energetic while keeping the controls and goal easy to read.
 
 ChatGPT image generation supported the visual and palette exploration; I selected and revised the direction. The resulting mockups and runtime illustrations are AI-assisted, not entirely hand-drawn by me. The selected direction is in `assets/visual-direction.png`. P2's original creator and URL have not yet been identified and still need to be credited before submission. Describing the visual style does not replace that attribution; the third-party reference itself is not redistributed in this repository.
 
-### Supplementary colour reference — 31 October 2026
+### Reference details added on 31 October 2026
 
 ![Pinterest reference: eight repeated martini-glass illustrations in contrasting colour combinations](docs/references/pinterest-martini-colour-study.jpg)
 
@@ -28,47 +30,15 @@ This image helps explain the Pop Art influence: it repeats an everyday object wh
 
 ## First implementation — 22 October 2026
 
-The initial repository contained README and PROCESS templates. The first code version adds a desktop browser prototype, a live mirrored camera preview, two-hand palm detection, calibration, liquid loss and three events. Drawn hands, tray, bowl, liquid and drops are separate Canvas elements so they can respond to input. The approved image is visual guidance, not a static gameplay background.
+The initial repository contained README and PROCESS templates. The first code version added a desktop browser prototype, a live mirrored camera preview, two-hand palm detection, calibration, liquid loss and three events. Drawn hands, tray, bowl, liquid and drops are separate Canvas elements so they can respond to input. The approved image is visual guidance, not a static gameplay background.
 
 Hand positions are sorted by their mirrored screen x coordinate. Their height difference determines an angle; their midpoint determines horizontal movement. The comfortable calibration pose is subtracted so the user does not need an exact prescribed resting angle. Smoothing reduces small jitter.
 
-I kept the initial scope to wind, floor tilt and falling ball. They currently cycle; only the ball target varies. A larger randomized event library is planned, not claimed as implemented. The three drink choices currently share the same rules.
+I kept the initial scope to wind, floor tilt and falling ball. At this stage, they cycled and only the ball target varied. A larger randomized event library had not yet been implemented, and the three drink choices shared the same rules.
 
 Interruption handling: loss of either hand freezes time and loss, then requires both hands plus a short countdown. Permission denial and model-loading failure offer keyboard mode. Tab changes pause, repeated start clicks are guarded, and the camera can be explicitly stopped.
 
-## AI tools used
-
-- ChatGPT conversation: concept development, interaction ideas, visual exploration and prompt drafting.
-- ChatGPT image generation: visual mockups and palette variants.
-- Codex: first HTML/CSS/JavaScript implementation, documentation and automated checks. I still need to review and understand the code before presenting it as coursework.
-- Suggestion kept: use the difference between the two hand heights for tray tilt, with a keyboard demonstration mode.
-- Suggestion changed/rejected: the early detailed 3D-like restaurant scenes were too complicated. I chose a close-up 2D composition with large hands and tray, simple event cues and a brighter palette. I also rejected muted/unnatural skin and soup colorways.
-
-## Verification versus user trial
-
-Automated physics checks are in `tests/physics.test.js`. Browser checks and camera limitations are recorded in `docs/VERIFICATION.md`. Automated checks are not a substitute for the required human trial.
-
-## First user trial — 24 October 2026, afternoon
-
-One participant tried the experience before I explained what it was or how it worked. Their name is omitted from this public record.
-
-**Observation:** The participant did not understand what to do at the start. Unlike my own tests, they did not keep checking whether the camera could see their hands, so their hands frequently left the camera frame. They also did not understand why the tray was being disturbed. Across about three attempts, the liquid quickly reached 0%; this had not happened in my earlier testing. No exact scores or timings were recorded.
-
-**Decision and response — 25 October 2026:** Add a separate instruction page between choosing a control mode and starting. Explain the 30-second goal, remaining-liquid score, two-hand tilt and sideways movement, keeping both hands fully visible, and tracking interruption/resume. Mention unexpected effects without naming specific hazards or adding per-event text warnings. Include an explicit start button and a back button. Also fix the alien's proportions by preserving its source image aspect ratio.
-
-**Unresolved issue:** The repeated quick 0% results are recorded as a difficulty or tracking concern, not attributed to a proven cause. Difficulty was not changed in this revision. The participant has not yet tested the revised instructions, so their effectiveness and the actual average score remain unverified.
-
-## Still to do before submission
-
-Status updated 31 October: two participant trials are now documented. Re-testing the latest revision is still pending. Older dated entries below describe the state at their respective dates.
-
-- Real two-hand camera test and comfort/sensitivity tuning.
-- Re-test the revised instructions with a participant and record whether they help.
-- Identify and credit P2's original source.
-- Review and explain the hand-to-response code.
-- Re-run from a fresh terminal, verify public repository access when signed out, and submit the repository URL through Canvas.
-
-## Iteration — 23 October 2026
+## Round length — 23 October 2026
 
 After trying the first prototype, I felt that 60 seconds was slightly too long, so I requested a 30-second round. The countdown, end condition and instructions were updated together. This is feedback from my own playtest, not the required trial with another person. Visual fidelity and stronger external events are next planned revisions; they are not implemented in this timing-only change.
 
@@ -95,6 +65,18 @@ After testing, I felt the ball fell too slowly and the event labels made the sur
 The ball now has a short 0.45-second landing-shadow cue followed by a 0.32-second fall to the collision point, rather than a 1.4-second descent. Its drawn position and collision use shared timing constants. Per-event names, instructions and ball-result messages were removed; tracking, permission and pause messages remain. The opening explains that random surprises can happen. Event order remains shuffled; directions and short gaps now also vary. Large asymmetric red comic fans and cream speed streaks sit behind the tray during stronger tilts, keeping the bright yellow field and the main illustration visible.
 
 JavaScript syntax checks, whitespace checks and all seven existing tests passed. This revision still needs a real browser/camera playtest to judge whether the fast ball feels fair. The 55% average remains a playtest target, not a measured result.
+
+## First user trial — 24 October 2026, afternoon
+
+One participant tried the experience before I explained what it was or how it worked. Their name is omitted from this public record.
+
+**Observation:** The participant did not understand what to do at the start. Unlike my own tests, they did not keep checking whether the camera could see their hands, so their hands frequently left the camera frame. They also did not understand why the tray was being disturbed. Across about three attempts, the liquid quickly reached 0%; this had not happened in my earlier testing. No exact scores or timings were recorded.
+
+## Response to the first trial — 25 October 2026
+
+Add a separate instruction page between choosing a control mode and starting. Explain the 30-second goal, remaining-liquid score, two-hand tilt and sideways movement, keeping both hands fully visible, and tracking interruption/resume. Mention unexpected effects without naming specific hazards or adding per-event text warnings. Include an explicit start button and a back button. Also fix the alien's proportions by preserving its source image aspect ratio.
+
+**Unresolved issue:** The repeated quick 0% results are recorded as a difficulty or tracking concern, not attributed to a proven cause. Difficulty was not changed in this revision. The participant has not yet tested the revised instructions, so their effectiveness and the actual average score remain unverified.
 
 ## Typography, impact and hand authority — 25 October 2026
 
@@ -130,7 +112,9 @@ Validation for this revision: 12 existing automated tests passed, syntax and whi
 
 A classmate (Participant A, anonymised) tried the experience. Their hands moved outside the camera frame twice, causing pauses that interrupted the experience. I noticed that players did not always actively check the preview. This is two observed interruptions, not a claim that hands were frequently out of view. No additional score or timing data was recorded.
 
-**Decision and revision — 31 October 2026:** I rejected adding a practice exercise. Instead, I requested clearer instruction hierarchy and a large English reminder, “KEEP BOTH HANDS IN CAMERA VIEW”, together with a 3–2–1 countdown after Start and camera calibration. The countdown does not consume the 30-second round; if either hand is lost before play, it resets to three until both return. Keyboard mode also has a countdown with its own English reminder. The main rules are larger/bolder, with secondary explanation reduced.
+## Response to the second trial and randomisation — 31 October 2026
+
+I rejected adding a practice exercise. Instead, I requested clearer instruction hierarchy and a large English reminder, “KEEP BOTH HANDS IN CAMERA VIEW”, together with a 3–2–1 countdown after Start and camera calibration. The countdown does not consume the 30-second round; if either hand is lost before play, it resets to three until both return. Keyboard mode also has a countdown with its own English reminder. The main rules are larger/bolder, with secondary explanation reduced.
 
 The preview now shows one red dot with a cream outline at each detected palm centre, a hand count and a dashed safe-area guide. Approaching the preview edge highlights the guide and prompts the player to move toward the centre. Missing detections remove the markers. Camera loss still freezes time and spilling; no new gameplay penalty was added for tracking failure.
 
@@ -147,3 +131,26 @@ I also noticed the spider did not appear to create its web where it crawled. Its
 The current concise English start reminder and countdown are unchanged; I asked to recall the older, longer instructions without restoring them.
 
 Validation: 15 tests passed, including 150 seeded schedules with a sustained disturbance during the final second, and checks that the spider stays at the endpoint of its growing web and leaves it behind. Six actual Canvas spider frames were rendered and representative building/completed states inspected. Real-camera playtesting of this revision remains to be done. The 55% target is still not a measured human average.
+
+## AI tools used
+
+- ChatGPT conversation: concept development, interaction ideas, visual exploration and prompt drafting.
+- ChatGPT image generation: visual mockups and palette variants.
+- Codex: first HTML/CSS/JavaScript implementation, documentation and automated checks. I still need to review and understand the code before presenting it as coursework.
+- Suggestion kept: use the difference between the two hand heights for tray tilt, with a keyboard demonstration mode.
+- Suggestion changed/rejected: the early detailed 3D-like restaurant scenes were too complicated. I chose a close-up 2D composition with large hands and tray, simple event cues and a brighter palette. I also rejected muted/unnatural skin and soup colorways.
+
+## Verification versus user trial
+
+Automated physics checks are in `tests/physics.test.js`. Browser checks and camera limitations are recorded in `docs/VERIFICATION.md`. Automated checks are not a substitute for the required human trial.
+
+## Still to do before submission
+
+Status on 1 November 2026: two participant trials are documented. The latest changes still need a final real-device check.
+
+- Re-test the latest revision with the real camera, including sensitivity, tracking interruption, last-second disturbances and spider animation.
+- Re-test the revised instructions with a participant and record whether they help.
+- Identify and credit P2's original source.
+- Review and explain the hand-to-response code.
+- Re-run from a fresh terminal, verify public repository access when signed out, and submit the repository URL through Canvas.
+- Replace the early README screenshot with a final capture. A self-recorded demo is an optional supplement.
