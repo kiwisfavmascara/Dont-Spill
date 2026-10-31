@@ -82,4 +82,8 @@ See [CREDITS.md](CREDITS.md) for the visual reference, AI assistance and MediaPi
 
 ## Demonstration recording
 
-A demonstration recording has not yet been added. Keyboard mode is already available when the camera model cannot load. A short self-recorded screen capture is an optional supplement; it should show start/countdown, hand control, a disturbance and the result.
+I recorded a complete tomato soup playthrough using webcam hand control. Toward the end, I lower my hands out of the camera view to demonstrate tracking-loss pause, then bring them back to resume play. This demonstrates the input–response–feedback loop and recovery from an ordinary interruption.
+
+[Watch the tomato soup gameplay recording](docs/demo.mp4)
+
+*The recording has been prepared; the video file is awaiting upload to `docs/demo.mp4`. This link will work after the upload. Keyboard mode remains available when camera dependencies cannot load.*

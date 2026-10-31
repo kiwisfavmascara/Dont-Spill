@@ -160,6 +160,10 @@ The README screenshot was recaptured from an earlier, clearer gameplay moment wi
 
 I rejected two impact-shape revisions because their narrow spikes and extra teeth did not match my selected still reference. I approved three broad red lightning silhouettes with long tips, a few deep folds and larger yellow gaps. Codex updated the actual Canvas renderer and replaced the README screenshot with the approved, more dramatic gameplay frame showing a tilted tray, spilling soup and the alien. The capture uses keyboard demonstration mode; no camera footage or personal image is included. Browser rendering was checked without script errors, and all 15 automated tests passed. This was a visual revision, not another participant trial.
 
+## Self-recorded camera demonstration — 1 November 2026
+
+I recorded a complete tomato soup playthrough with webcam hand control. Toward the end, I lowered my hands out of the camera view, observed the game pause, then brought them back and resumed play. This is my own test and recording, not an additional participant trial. It provides an example of the main interaction and tracking-interruption recovery; it does not establish an average score or validate every event. The recording is prepared and I will upload it separately to `docs/demo.mp4`. Codex added the description and link based on my report; it has not inspected the video.
+
 ## AI tools used
 
 - ChatGPT conversation: concept development, interaction ideas, visual exploration and prompt drafting.
@@ -174,11 +178,11 @@ Automated physics checks are in `tests/physics.test.js`. Browser checks and came
 
 ## Still to do before submission
 
-Status on 1 November 2026: two participant trials are documented. The latest changes still need a final real-device check.
+Status on 1 November 2026: two participant trials are documented. I have also recorded a tomato soup camera playthrough including tracking-loss pause and recovery; the video upload is pending. Other final checks below remain.
 
-- Re-test the latest revision with the real camera, including sensitivity, tracking interruption, last-second disturbances and spider animation.
+- Complete remaining real-camera checks, including sensitivity, last-second disturbances and spider animation. Tracking-loss pause and recovery were exercised in my recorded playthrough.
 - Re-test the revised instructions with a participant and record whether they help.
 - Identify and credit P2's original source.
 - Review and explain the hand-to-response code.
 - Re-run from a fresh terminal, verify public repository access when signed out, and submit the repository URL through Canvas.
-- Replace the early README screenshot with a final capture. A self-recorded demo is an optional supplement.
+- Upload the prepared self-recorded demonstration to `docs/demo.mp4`. The final README screenshot has already been updated.
