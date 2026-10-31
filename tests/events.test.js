@@ -34,7 +34,7 @@ test("slip and chase create motion; ball hit depends on player position", () => 
   assert.equal(ballCollision(0.4, -0.45), false);
 });
 
-test("random plans vary counts and selections while fitting 30 seconds", () => {
+test("random plans vary counts and selections and keep a sustained hazard through the final second", () => {
   const counts=new Set(),selections=new Set();
   for(let seed=1;seed<=150;seed++) {
     let state=seed;
@@ -45,7 +45,12 @@ test("random plans vary counts and selections while fitting 30 seconds", () => {
     selections.add(plan.map(e=>e.type).join(','));
     assert.ok(plan.length>=4&&plan.length<=6);
     assert.ok(new Set(plan.map(e=>e.type)).size>=3);
-    assert.ok(plan.at(-1).start+plan.at(-1).duration<=29.300001);
+    const last=plan.at(-1);
+    assert.ok(Math.abs(last.start+last.duration-30.25)<.000001);
+    assert.ok(["slope","alien","bear"].includes(last.type));
+    assert.ok(last.start+WARNING_SECONDS<29);
+    const f=disturbance(last.type,29.8-last.start,last.direction,false,last.duration);
+    assert.ok(Math.abs(f.angle)+Math.abs(f.y)>0.001);
     plan.forEach((e,i)=>{
       assert.ok(e.duration>1.8&&e.strength>=.85&&e.strength<=1.15);
       assert.ok(Math.abs(e.ballX)>=.38&&Math.abs(e.ballX)<=.7);

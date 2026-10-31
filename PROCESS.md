@@ -137,3 +137,13 @@ The preview now shows one red dot with a cream outline at each detected palm cen
 I also reported that five recent rounds felt too similar. Previously each round contained all five hazards once, with covers tied to the second and fourth events. Codex changed this to 4–6 sampled disturbances, at least three distinct types, no immediate repeats, and varied start times, durations, directions, strengths and ball positions. Cloth/fog selection and spacing now vary independently (up to three covers), and spider appearance varies from 3–21 seconds. Conditional splashes remain tied to actual rapid liquid loss. The 55% score target has not been re-measured after these changes.
 
 Validation: 13 automated tests passed, including 150 seeded random plans checked for variety, bounds and completion within 30 seconds. A simulated hand detector with native Canvas drawing exercised initial countdown, hand loss resetting that countdown, gameplay tracking loss, pause, result and retry. This is simulated camera validation, not a real-browser or human test of the revision. The participant has not yet tried these changes.
+
+## Last-second disturbances and spider path — 1 November 2026
+
+My latest self-test had about eight seconds at the end with no disturbances. The random schedule only compressed long plans, so shorter four-event plans could finish early. Codex now distributes the sampled sequence across the whole round, with the last sustained hazard continuing through the last second and ending when the 30-second game ends. The final hazard is a slope, alien or bear rather than a brief ball impact or decaying slip. Earlier hazards and random choices remain variable.
+
+I also noticed the spider did not appear to create its web where it crawled. Its web is now drawn only along its actual completed route: it descends, attaches radial support threads, traverses connecting arcs, then climbs away. The spider stays at the growing thread endpoint while building; no thread appears ahead of it. The completed web remains in the upper-right corner until reset. It remains decorative and does not affect spilling.
+
+The current concise English start reminder and countdown are unchanged; I asked to recall the older, longer instructions without restoring them.
+
+Validation: 15 tests passed, including 150 seeded schedules with a sustained disturbance during the final second, and checks that the spider stays at the endpoint of its growing web and leaves it behind. Six actual Canvas spider frames were rendered and representative building/completed states inspected. Real-camera playtesting of this revision remains to be done. The 55% target is still not a measured human average.

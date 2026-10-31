@@ -28,6 +28,11 @@ export function createEventPlan(random = Math.random) {
     const options = EVENT_TYPES.filter(e => e.type !== chosen.at(-1).type);
     chosen.push(options[Math.floor(random() * options.length)]);
   }
+  // A sustained final hazard stays active through the last playable second.
+  if (["ball", "slip"].includes(chosen.at(-1).type)) {
+    const options=EVENT_TYPES.filter(e=>["slope","alien","bear"].includes(e.type)&&e.type!==chosen.at(-2).type);
+    chosen[chosen.length-1]=options[Math.floor(random()*options.length)];
+  }
   let time = 1.3 + random() * 1.4;
   const first = time;
   const plan = chosen.map(e => {
@@ -38,8 +43,9 @@ export function createEventPlan(random = Math.random) {
     time += item.duration + .5 + random() * 1.5;
     return item;
   });
+  plan.at(-1).duration = Math.max(3.8, plan.at(-1).duration);
   const end = plan.at(-1).start + plan.at(-1).duration;
-  const scale = Math.min(1, (ROUND_SECONDS - .7 - first) / (end - first));
+  const scale = (ROUND_SECONDS + .25 - first) / (end - first);
   return plan.map(e => ({...e, start:first+(e.start-first)*scale,duration:e.duration*scale}));
 }
 export function disturbance(type, age, direction = 1, collided = false, duration = EVENT_SECONDS) {

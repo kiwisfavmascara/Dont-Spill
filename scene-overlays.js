@@ -1,4 +1,5 @@
 import { clamp } from "./physics.js";
+import { spiderFrame } from "./spider-web.js";
 import { coverAge, SPLASH_SECONDS } from "./occlusions.js";
 const BLUE = "#164eeb", CREAM = "#fff8e7", RED = "#ff4634";
 const smooth = (t) => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
@@ -86,29 +87,23 @@ export function createOverlayRenderer(ctx) {
     ctx.restore();
   }
   function drawSpider(start,time) {
-    const age=time-start;if(age<0)return;
-    const build=clamp((age-1.15)/1.8,0,1);
-    const cx=1120,cy=0;
+    const age=time-start,frame=spiderFrame(age);
+    if(!frame)return;
     ctx.save();
-    // Small corner web remains until reset. It has no force or spill input.
-    ctx.globalAlpha=.8;
-    if(build>0) {
-      for(let i=0;i<7;i++) {
-        const a=Math.PI/2+i*Math.PI/12;
-        line(cx,cy,cx+Math.cos(a)*115*build,cy+Math.sin(a)*115*build,CREAM,2);
-      }
-      for(let r=20;r<=110*build;r+=18) {
-        ctx.strokeStyle=CREAM;ctx.lineWidth=1.5;ctx.beginPath();
-        ctx.arc(cx,cy,r,Math.PI/2,Math.PI);ctx.stroke();
-      }
+    // Each visible thread is the spider's completed path, never ahead of it.
+    const trail=frame.trail;
+    if(age>=1)line(1060,0,1060,80,CREAM,1.7);
+    if(trail.length>1) {
+      ctx.globalAlpha=.85;ctx.strokeStyle=CREAM;ctx.lineWidth=1.7;
+      ctx.beginPath();ctx.moveTo(trail[0].x,trail[0].y);
+      for(const p of trail.slice(1))ctx.lineTo(p.x,p.y);
+      ctx.stroke();
     }
     ctx.globalAlpha=1;
-    if(age<4.5) {
-      let x=cx-45,y;
-      if(age<1.15)y=-20+110*smooth(age/1.15);
-      else if(age<2.95){x=cx-45+Math.sin((age-1.15)*7)*17;y=85+Math.cos((age-1.15)*7)*15;}
-      else y=90-130*smooth((age-2.95)/1.55);
-      line(x,-5,x,y,BLUE,1.3);
+    if(frame.visible) {
+      const {x,y}=frame;
+      if(age<1)line(1060,-25,x,y,BLUE,1.3);
+      if(age>=7)line(trail.at(-1).x,trail.at(-1).y,x,y,CREAM,1.7);
       for(const side of [-1,1])for(let i=0;i<4;i++){
         const y1=y-8+i*5,wiggle=Math.sin(age*9+i)*2;
         line(x+side*7,y1,x+side*17,y1-8+wiggle,BLUE,2);
