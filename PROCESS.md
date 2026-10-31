@@ -175,13 +175,3 @@ I recorded a complete tomato soup playthrough with webcam hand control. Toward t
 ## Verification versus user trial
 
 Automated physics checks are in `tests/physics.test.js`. Browser checks and camera limitations are recorded in `docs/VERIFICATION.md`. Automated checks are not a substitute for the required human trial.
-
-## Final verification status — 1 November 2026
-
-The repository includes source, runtime assets, run instructions, a current screenshot, an embedded gameplay excerpt, the full self-recorded camera demonstration and credits. Two anonymous participant trials and the resulting changes are documented above. A further participant trial of the latest revision would be useful but has not been carried out; it is not claimed here.
-
-Codex cloned the public repository into a new directory, ran all 15 automated tests successfully, served the browser project with Python, and checked keyboard start/countdown, tilt-dependent liquid loss, pause freezing the timer and score, and the result screen without uncaught script errors. The browser check used controlled animation timestamps and locally supplied font responses; it does not verify external font/model availability or real camera recognition. An unauthenticated request to the public repository returned HTTP 200. The uploaded full recording is readable H.264/AAC MP4, approximately 45.6 seconds; sampled frames show camera gameplay and a result. My report of hand-loss recovery remains documented in the recording entry above. A source-text scan found no obvious API keys, passwords or participant names; this is not an exhaustive review of every video frame or git-history object.
-
-The supplementary martini reference is credited through source links and visual analysis rather than an image copy because no redistribution licence has been established. P2's original creator and URL remain unidentified; this limitation is disclosed in CREDITS.md. The 55% target remains a tuning goal, not a measured participant average.
-
-The author must still be able to explain the hand-to-response code and submit the public repository URL through Canvas before the deadline. Canvas submission has not been performed by Codex.
