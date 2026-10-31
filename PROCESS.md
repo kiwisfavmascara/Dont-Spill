@@ -162,7 +162,7 @@ I rejected two impact-shape revisions because their narrow spikes and extra teet
 
 ## Self-recorded camera demonstration — 1 November 2026
 
-I recorded a complete tomato soup playthrough with webcam hand control. Toward the end, I lowered my hands out of the camera view, observed the game pause, then brought them back and resumed play. This is my own test and recording, not an additional participant trial. It provides an example of the main interaction and tracking-interruption recovery; it does not establish an average score or validate every event. The recording is prepared and I will upload it separately to `docs/demo.mp4`. Codex added the description and link based on my report; it has not inspected the video.
+I recorded a complete tomato soup playthrough with webcam hand control. Toward the end, I lowered my hands out of the camera view, observed the game pause, then brought them back and resumed play. This is my own test and recording, not an additional participant trial. It provides an example of the main interaction and tracking-interruption recovery; it does not establish an average score or validate every event. The recording is uploaded at `docs/demo.mp4`; its link appears near the top of the README. Codex added the description and link based on my report; it has not inspected the video.
 
 ## AI tools used
 
@@ -178,11 +178,11 @@ Automated physics checks are in `tests/physics.test.js`. Browser checks and came
 
 ## Still to do before submission
 
-Status on 1 November 2026: two participant trials are documented. I have also recorded a tomato soup camera playthrough including tracking-loss pause and recovery; the video upload is pending. Other final checks below remain.
+Status on 1 November 2026: two participant trials are documented. I have also recorded a tomato soup camera playthrough including tracking-loss pause and recovery; the video is uploaded at `docs/demo.mp4`. Other final checks below remain.
 
 - Complete remaining real-camera checks, including sensitivity, last-second disturbances and spider animation. Tracking-loss pause and recovery were exercised in my recorded playthrough.
 - Re-test the revised instructions with a participant and record whether they help.
 - Identify and credit P2's original source.
 - Review and explain the hand-to-response code.
 - Re-run from a fresh terminal, verify public repository access when signed out, and submit the repository URL through Canvas.
-- Upload the prepared self-recorded demonstration to `docs/demo.mp4`. The final README screenshot has already been updated.
+- The self-recorded demonstration and final README screenshot have been uploaded.
