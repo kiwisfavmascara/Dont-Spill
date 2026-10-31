@@ -162,7 +162,7 @@ I rejected two impact-shape revisions because their narrow spikes and extra teet
 
 ## Self-recorded camera demonstration — 1 November 2026
 
-I recorded a complete tomato soup playthrough with webcam hand control. Toward the end, I lowered my hands out of the camera view, observed the game pause, then brought them back and resumed play. This is my own test and recording, not an additional participant trial. It provides an example of the main interaction and tracking-interruption recovery; it does not establish an average score or validate every event. The recording is uploaded at `docs/demo.mp4`; its link appears near the top of the README. Codex added the description and link based on my report; it has not inspected the video.
+I recorded a complete tomato soup playthrough with webcam hand control. Toward the end, I lowered my hands out of the camera view, observed the game pause, then brought them back and resumed play. This is my own test and recording, not an additional participant trial. It provides an example of the main interaction and tracking-interruption recovery; it does not establish an average score or validate every event. The full recording is uploaded at `docs/demo.mp4`; its link appears near the top of the README. A shorter excerpt is embedded there for direct playback. The hand-out-of-view pause and recovery are in the full recording, not the embedded excerpt. Codex added the description and link based on my report; it has not inspected the video.
 
 ## AI tools used
 

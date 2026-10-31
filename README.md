@@ -8,15 +8,13 @@ A short, playful browser experience for students and other desktop users taking 
 
 ## Demonstration recording
 
-
+The video below is a shortened excerpt from my tomato soup playthrough using webcam hand control, rather than the full recording.
 
 https://github.com/user-attachments/assets/e9fbf6e2-80d9-4561-9965-f527d62e97bc
 
+[Download the full tomato soup playthrough, including tracking-loss pause and recovery](docs/demo.mp4)
 
-
-I recorded a complete tomato soup playthrough using webcam hand control. Toward the end, I lower my hands out of the camera view to demonstrate tracking-loss pause, then bring them back to resume play. This demonstrates the input–response–feedback loop and recovery from an ordinary interruption.
-
-[Watch the tomato soup gameplay recording](docs/demo.mp4)
+The full recording in `docs/demo.mp4` also shows me lowering my hands out of the camera view near the end, causing the game to pause, then bringing them back to resume play. This interruption-and-recovery sequence is included in the full recording, not the excerpt above. GitHub may require downloading the full file to watch it.
 
 *Self-recorded camera demonstration. Keyboard mode remains available when camera dependencies cannot load.*
 
