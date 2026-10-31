@@ -361,86 +361,38 @@ h1 { letter-spacing: 1px; }
 .camera-box.tracking-alert {border-color:var(--red);}
 .camera-box.tracking-alert span {background:var(--red);}
 
-/* Recompose the interface around the viewport, rather than shrinking the page. */
-#welcome-card {
-  width: min(760px, calc(100% - 48px));
-  max-width: 760px;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  align-items: center;
-  gap: 32px;
-  padding: 30px;
-  text-align: left;
-}
+/* Single centred stage: the preview stays inside the gameplay image. */
+#welcome-card {width:min(480px,calc(100% - 32px));padding:20px 28px;}
+#welcome-card h1 {font-size:56px;margin:12px 0;line-height:1;}
+#welcome-card > p {margin:10px 0;}
+#welcome-card fieldset {margin:12px 0;}
+#welcome-card .privacy {font-size:10px;margin:6px 0;}
+#welcome-card .secondary {font-size:12px;padding:10px;}
 #welcome-card[hidden], #how-to-play[hidden] {display:none;}
-.welcome-intro h1 {font-size:64px;margin:20px 0;}
-.welcome-intro p {margin-bottom:0;}
-.welcome-actions {text-align:center;}
-.welcome-actions fieldset {margin-top:0;}
-.welcome-actions label {font-size:14px;}
-.welcome-actions .privacy {font-size:11px;line-height:1.4;}
-.welcome-actions .secondary {font-size:13px;}
-#how-to-play {
-  width:min(720px, calc(100% - 48px));
-  max-width:720px;
-  display:grid;
-  grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
-  gap:12px 24px;
-  padding:26px 30px;
-}
-#how-to-play > .eyebrow, #how-to-play > h2,
-#how-to-play > .key-rule, #how-to-play > .how-secondary {grid-column:1 / -1;}
-#how-to-play h2 {margin:0;font-size:36px;}
-#how-to-play p {margin:4px 0;}
-#how-to-play .key-rule {font-size:28px;font-weight:700;}
+#how-to-play {width:min(500px,calc(100% - 32px));padding:22px 28px;}
+#how-to-play h2 {margin:4px 0 12px;}
+#how-to-play .key-rule {font-size:26px;font-weight:700;line-height:1.1;}
 #how-to-play .key-control {font-size:18px;font-weight:600;}
-#how-to-play .how-secondary {font-size:14px;}
-#how-back {align-self:center;}
-.instructions .camera-box {position:relative;inset:auto;width:190px;flex:none;}
-
-@media (min-width:900px) and (min-height:650px) {
-  body {height:100vh;height:100dvh;display:grid;grid-template-rows:60px minmax(0,1fr);}
-  header {padding:10px 24px;}
-  main {
-    width:100%;max-width:1800px;margin:0 auto;min-height:0;
-    display:grid;grid-template-columns:minmax(0,1fr) 210px;
-    grid-template-rows:68px minmax(0,1fr) 28px;
-    gap:12px 20px;padding:0 24px 12px;
-  }
-  .hud {grid-column:1 / -1;padding:8px 0 0;gap:24px;}
-  .hud > div:first-child {min-width:0;}
-  .hud p {font-size:17px;margin:5px 0;line-height:1.2;}
-  .stats {gap:28px;flex:none;}
+#how-to-play .how-secondary {font-size:13px;}
+.overlay {overflow:auto;padding:12px 0;}
+@media (min-width:900px) and (min-height:700px) {
+  body {height:100vh;height:100dvh;display:grid;grid-template-rows:52px minmax(0,1fr);}
+  header {padding:8px 24px;}
+  main {width:100%;max-width:1600px;min-height:0;margin:0 auto;padding:0 24px 8px;
+    display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:64px minmax(0,1fr) 54px 24px;gap:8px;}
+  .hud {padding:8px 0 0;gap:20px;}
+  .hud p {font-size:17px;margin:4px 0;}
+  .stats {gap:28px;}
   .stats strong {font-size:42px;}
   .stats > div > span {margin-top:3px;}
-  .stage {grid-column:1;grid-row:2;height:auto;min-height:0;}
-  .instructions {
-    grid-column:2;grid-row:2;min-height:0;
-    flex-direction:column;align-items:stretch;justify-content:center;
-    gap:18px;padding:8px 0;
-  }
-  .instructions .camera-box {width:100%;}
-  .instructions > div {max-width:none;}
-  .instructions b {font-size:11px;}
-  .instructions p {font-size:14px;line-height:1.35;margin:5px 0 0;}
-  .instructions > button {width:100%;}
-  footer {grid-column:1 / -1;padding:6px 0 0;align-items:center;font-size:10px;}
+  .stage {height:auto;min-height:0;}
+  .instructions {padding:5px 0;gap:20px;}
+  .instructions p {margin:4px 0;font-size:12px;}
+  footer {padding:4px 0 0;align-items:center;font-size:10px;}
 }
-
-/* Short/zoomed windows keep natural scrolling so controls never get clipped. */
-@media (min-width:900px) and (max-height:649px) {
+@media (max-height:699px) and (min-width:651px) {
   header {padding:10px 4%;}
   .hud {padding:12px 0;}
-  .stage {height:480px;min-height:480px;}
-  .instructions {flex-wrap:wrap;padding:16px 0;}
-}
-@media (max-width:899px) {
-  #welcome-card {width:min(460px,calc(100% - 32px));grid-template-columns:1fr;gap:18px;text-align:center;padding:24px;}
-  .welcome-intro h1 {font-size:52px;margin:14px 0;}
-  .welcome-intro p {font-size:14px;}
-  #how-to-play {width:min(500px,calc(100% - 32px));grid-template-columns:1fr;padding:22px;gap:10px;}
-  #how-to-play > * {grid-column:1;}
-  .instructions {flex-wrap:wrap;}
-  .instructions .camera-box {max-width:none;}
-  .overlay {overflow:auto;padding:16px 0;}
+  .stage {height:520px;min-height:440px;}
+  .instructions {padding:12px 0;}
 }

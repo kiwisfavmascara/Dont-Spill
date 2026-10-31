@@ -140,6 +140,12 @@ The desktop layout now uses a compact top header/status area, a large game stage
 
 Headless Chromium checks found no horizontal or vertical page overflow at 1280×720, 1366×768, 1440×900, 1920×1080, 1024×768 and 900×650. Welcome/instruction button placement and the relocated preview were checked, with no uncaught browser errors. A 390-pixel narrow viewport keeps natural scrolling and no horizontal overflow; short or zoomed windows can also scroll rather than clip controls. Font fallbacks remain available when external fonts cannot load. Gameplay rules were not changed by this layout revision.
 
+## Restore the single-stage composition — 1 November 2026
+
+I rejected the left/right layout because it weakened the main visual focus. Codex restored the centred, full-width game stage and vertical welcome/instruction cards. The camera preview is again an inset at the bottom-right of the gameplay canvas, with the quick controls arranged below the stage. The sidebar and split welcome card were removed. Header/status/footer spacing is tighter to reduce unnecessary scrolling without scaling the entire page.
+
+Headless browser checks found no page overflow at 1280×720, 1366×768, 1440×900, 1920×1080 and 1024×768. Shorter and narrow windows keep natural scrolling rather than clipping content. The welcome/instruction controls and bottom-right preview placement were checked with no uncaught page errors. This supersedes the side-rail design described in the previous entry; no gameplay or tracking logic changed.
+
 ## AI tools used
 
 - ChatGPT conversation: concept development, interaction ideas, visual exploration and prompt drafting.
