@@ -156,6 +156,10 @@ I disliked the arrow-like impact motif and the cream speed lines crossing it. I 
 
 The README screenshot was recaptured from an earlier, clearer gameplay moment without the burst. It remains an actual keyboard-demo browser capture at 1440×900 with the Bangers/Barlow fonts loaded. The revised burst was also checked in a separate rendered gameplay frame. JavaScript syntax and whitespace checks passed.
 
+## Approved comic impact shapes and screenshot — 1 November 2026
+
+I rejected two impact-shape revisions because their narrow spikes and extra teeth did not match my selected still reference. I approved three broad red lightning silhouettes with long tips, a few deep folds and larger yellow gaps. Codex updated the actual Canvas renderer and replaced the README screenshot with the approved, more dramatic gameplay frame showing a tilted tray, spilling soup and the alien. The capture uses keyboard demonstration mode; no camera footage or personal image is included. Browser rendering was checked without script errors, and all 15 automated tests passed. This was a visual revision, not another participant trial.
+
 ## AI tools used
 
 - ChatGPT conversation: concept development, interaction ideas, visual exploration and prompt drafting.

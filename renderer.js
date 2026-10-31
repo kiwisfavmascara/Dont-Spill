@@ -380,11 +380,11 @@ export function createRenderer(canvas) {
         ctx.save();
         ctx.translate(side * 300, -50);
         ctx.scale(-side, 1);
-        // Separate jagged rays converge behind the bowl, like the approved still.
-        // Avoid a broad arrow base and cream streaks crossing the red artwork.
-        shape("M 38 52 L -78 -176 L 10 -72 L -5 -130 L 75 61 Z", C.red);
-        shape("M 48 64 L -175 -96 L -70 18 L -127 -7 L 82 95 Z", C.red);
-        shape("M 58 90 L -178 68 L -95 108 L -152 112 L 100 135 Z", C.red);
+        // Three broad, single-fold bolts traced from the user's reference.
+        // Keep the long tips and large yellow notches; no extra saw teeth.
+        shape("M -76 -178 L 69 1 L 82 -94 L 103 34 L 86 -10 L 81 45 L 34 1 L 63 78 L 14 55 Z", C.red);
+        shape("M -197 -89 L 14 25 L -8 -33 L 63 78 L -21 40 L 31 106 L -32 101 Z", C.red);
+        shape("M -185 82 L -32 71 L -60 44 L 31 106 L -40 101 L 20 140 Z", C.red);
         ctx.restore();
       }
       ctx.restore();
