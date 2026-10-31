@@ -8,6 +8,9 @@ A short, playful browser experience for students and other desktop users taking 
 
 ## Demonstration recording
 
+
+
+
 I recorded a complete tomato soup playthrough using webcam hand control. Toward the end, I lower my hands out of the camera view to demonstrate tracking-loss pause, then bring them back to resume play. This demonstrates the input–response–feedback loop and recovery from an ordinary interruption.
 
 [Watch the tomato soup gameplay recording](docs/demo.mp4)
