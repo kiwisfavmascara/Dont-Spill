@@ -1,6 +1,6 @@
 # Verification
 
-Current status: two anonymous participant trials (24 and 29 October) are documented in PROCESS.md. Earlier sections below are dated historical test snapshots, not current claims that no trial has occurred.
+Current status: two anonymous participant trials (24 and 29 October), the author's camera recording and the 1 November final review are documented in PROCESS.md. The final screenshot and recording are now uploaded. Earlier sections below are dated historical test snapshots, not current claims that no trial has occurred.
 
 ## First prototype — 22 October 2026
 
@@ -38,3 +38,12 @@ Do not present automated checks as a user trial.
 - Red palm dots, edge guide and hand count are implemented. Real-camera readability and edge-warning sensitivity still require a real device check.
 - No human test of this newest revision is claimed. The participant A observation was two out-of-frame interruptions, not frequent loss.
 - Optional self-recorded demo and a final current screenshot have not yet been supplied.
+
+## Final repository review — 1 November 2026
+
+- Fresh public clone: all 15 tests passed; local JavaScript imports resolved.
+- Python HTTP serving and headless Chromium keyboard check: start/countdown, deliberate tilt reducing liquid, pause freezing score/time and end result worked without uncaught script errors. Animation timestamps were controlled and font responses supplied locally; external MediaPipe loading was not tested by this check.
+- Anonymous repository request returned HTTP 200; development commits are present.
+- Full recording is present at `docs/demo.mp4` (H.264/AAC, approximately 45.6 seconds); sampled frames were visually inspected. The author reports it includes tracking-loss pause/recovery. This is self-testing, not a third participant trial.
+- The latest screenshot and embedded shorter recording are linked in README. Earlier “not yet supplied” statements above describe their dated historical states.
+- Current source scan found no obvious credentials or the first participant's name. No exhaustive historical secret scan or frame-by-frame privacy review is claimed.

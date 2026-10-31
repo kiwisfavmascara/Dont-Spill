@@ -82,12 +82,12 @@ With Node.js installed (no npm install required):
 npm test
 ```
 
-Before submission, also run the camera on a real device, try permission denial, remove one hand, pause/resume, finish a round, and ask another person to try it without explanation. See `PROCESS.md` for the first user trial and revisions awaiting another test.
+All 15 automated tests pass in a fresh clone. Two participant trials and their resulting revisions are recorded in `PROCESS.md`. The author has also recorded a real-camera playthrough including tracking-loss pause and recovery. Browser keyboard checks cover start/countdown, tilt feedback, pause and the result screen. Automated and simulated checks do not establish recognition accuracy across devices; see `docs/VERIFICATION.md` for the distinction.
 
 ## Known limitations
 
-This is an iterated browser prototype. The hands/tray, empty bowl, cup/saucer, alien and bear use AI-generated transparent artwork based on the selected direction. Liquid, fill level, spills and motion remain procedural; they are not a static screenshot. Liquids use a simple loss rule rather than fluid simulation. Tracking can jitter, fail in poor lighting, or struggle with overlapping hands. Calibration needs a comfortable steady pose. Detection runs at a limited frequency on the main thread, so older computers may stutter. Physical camera comfort and recognition quality still need user testing. Keyboard is the demonstration path when camera dependencies are unavailable. Desktop use is intended; mobile touch controls are not implemented.
+This is an iterated browser prototype. The hands/tray, empty bowl, cup/saucer, alien and bear use AI-generated transparent artwork based on the selected direction. Liquid, fill level, spills and motion remain procedural; they are not a static screenshot. Liquids use a simple loss rule rather than fluid simulation. Tracking can jitter, fail in poor lighting, or struggle with overlapping hands. Calibration needs a comfortable steady pose. Detection runs at a limited frequency on the main thread, so older computers may stutter. Camera comfort and recognition quality vary by player, lighting and device; the documented trials do not establish reliability for all users. Keyboard is the demonstration path when camera dependencies are unavailable. Desktop use is intended; mobile touch controls are not implemented.
 
 ## Credits
 
-See [CREDITS.md](CREDITS.md) for the visual reference, AI assistance and MediaPipe sources. This is Assignment 3, *An interactive experience*. Two anonymous user trials and resulting revisions are recorded in `PROCESS.md`; revised behavior needs re-testing before submission.
+See [CREDITS.md](CREDITS.md) for the visual reference, AI assistance and MediaPipe sources. This is Assignment 3, *An interactive experience*. Two anonymous user trials and resulting revisions are recorded in `PROCESS.md`, together with the final verification status and remaining limitations.

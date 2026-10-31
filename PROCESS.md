@@ -22,11 +22,11 @@ ChatGPT image generation supported the visual and palette exploration; I selecte
 
 ### Reference details added on 31 October 2026
 
-![Pinterest reference: eight repeated martini-glass illustrations in contrasting colour combinations](docs/references/pinterest-martini-colour-study.jpg)
+[View the supplementary martini colour reference at its publication source](https://www.thedailybeast.com/the-coming-of-the-martini-an-annotated-timeline/)
 
 *Reference supplied by me from Pinterest. Found via [Pinterest](https://pin.it/4yfYqPwWG). Matching illustration published in The Daily Beast, [“The Coming of the Martini: An Annotated Timeline”](https://www.thedailybeast.com/the-coming-of-the-martini-an-annotated-timeline/), with the image credit “Getty”. The article shows a wider five-column version; the supplied reference has four columns. The individual illustrator and original artwork title are not identified on that page. This is a third-party reference image, not my own artwork or a game asset.*
 
-This image helps explain the Pop Art influence: it repeats an everyday object while changing the saturated background and object colours. I was interested in the bold contrast and graphic treatment of familiar objects. For the game, I used a more limited red, yellow and blue palette, combined with retro comic shapes and screen-print grain, to make the different objects feel visually consistent. Bangers reinforces the expressive comic character, while standard Barlow keeps the smaller instructions clear. I am adding this image as a supplementary reference for the design explanation; it is distinct from the earlier cyan/pink P2 reference.
+This image helps explain the Pop Art influence: it repeats an everyday object while changing the saturated background and object colours. I was interested in the bold contrast and graphic treatment of familiar objects. For the game, I used a more limited red, yellow and blue palette, combined with retro comic shapes and screen-print grain, to make the different objects feel visually consistent. Bangers reinforces the expressive comic character, while standard Barlow keeps the smaller instructions clear. I use this linked image as a supplementary reference for the design explanation; it is distinct from the earlier cyan/pink P2 reference.
 
 ## First implementation — 22 October 2026
 
@@ -176,13 +176,12 @@ I recorded a complete tomato soup playthrough with webcam hand control. Toward t
 
 Automated physics checks are in `tests/physics.test.js`. Browser checks and camera limitations are recorded in `docs/VERIFICATION.md`. Automated checks are not a substitute for the required human trial.
 
-## Still to do before submission
+## Final verification status — 1 November 2026
 
-Status on 1 November 2026: two participant trials are documented. I have also recorded a tomato soup camera playthrough including tracking-loss pause and recovery; the video is uploaded at `docs/demo.mp4`. Other final checks below remain.
+The repository includes source, runtime assets, run instructions, a current screenshot, an embedded gameplay excerpt, the full self-recorded camera demonstration and credits. Two anonymous participant trials and the resulting changes are documented above. A further participant trial of the latest revision would be useful but has not been carried out; it is not claimed here.
 
-- Complete remaining real-camera checks, including sensitivity, last-second disturbances and spider animation. Tracking-loss pause and recovery were exercised in my recorded playthrough.
-- Re-test the revised instructions with a participant and record whether they help.
-- Identify and credit P2's original source.
-- Review and explain the hand-to-response code.
-- Re-run from a fresh terminal, verify public repository access when signed out, and submit the repository URL through Canvas.
-- The self-recorded demonstration and final README screenshot have been uploaded.
+Codex cloned the public repository into a new directory, ran all 15 automated tests successfully, served the browser project with Python, and checked keyboard start/countdown, tilt-dependent liquid loss, pause freezing the timer and score, and the result screen without uncaught script errors. The browser check used controlled animation timestamps and locally supplied font responses; it does not verify external font/model availability or real camera recognition. An unauthenticated request to the public repository returned HTTP 200. The uploaded full recording is readable H.264/AAC MP4, approximately 45.6 seconds; sampled frames show camera gameplay and a result. My report of hand-loss recovery remains documented in the recording entry above. A source-text scan found no obvious API keys, passwords or participant names; this is not an exhaustive review of every video frame or git-history object.
+
+The supplementary martini reference is credited through source links and visual analysis rather than an image copy because no redistribution licence has been established. P2's original creator and URL remain unidentified; this limitation is disclosed in CREDITS.md. The 55% target remains a tuning goal, not a measured participant average.
+
+The author must still be able to explain the hand-to-response code and submit the public repository URL through Canvas before the deadline. Canvas submission has not been performed by Codex.
