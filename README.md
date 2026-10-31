@@ -4,6 +4,19 @@ A short, playful browser experience for students and other desktop users taking 
 
 ![First playable version](docs/screenshot.png)
 
+## Development in chronological order
+
+- **Initial idea and visual direction:** turn carrying a tray into a two-hand balancing experience. Compare visual references and choose a Pop Art-inspired direction with retro comic shapes, screen-print grain and a mainly red/yellow/blue palette. Reference details were added to this initial design account on **31 October**, rather than presented as a new design stage.
+- **22 October:** build the first webcam prototype, calibration, liquid loss, keyboard fallback and interruption handling.
+- **23 October:** shorten rounds from 60 to 30 seconds; keep coffee and tomato soup; refine the artwork and dynamic liquid; develop the five disturbances and speed up the falling ball.
+- **24 October:** observe the first participant trial without explaining the interaction beforehand. The participant was unsure how to start and keep hands visible.
+- **25 October:** respond with an instruction page and control/impact improvements; add foreground interruptions, refine visitor proportions and motion, and settle on Bangers with standard Barlow.
+- **29 October:** a second participant's hands left the camera view twice, interrupting play.
+- **31 October:** simplify instruction hierarchy, add the large English reminder and 3–2–1 countdown, red palm markers and edge feedback, and make event selection and timing more varied. Supplement the initial visual-reference explanation and source details.
+- **1 November:** address an uneventful ending by keeping a sustained disturbance through the last second; make the spider lay silk along its actual crawling path.
+
+Full observations, decisions, AI disclosure and validation limits are in [PROCESS.md](PROCESS.md).
+
 ## Run
 
 No build step or paid account is required. Install Python 3, then from a fresh terminal:
@@ -37,7 +50,7 @@ The program uses palm centres, not a special gripping gesture. Small movements a
 - Camera processing is in the browser. This application does not record, store, or upload frames. External providers receive ordinary requests for library/model assets. No microphone is requested.
 - Stop camera or leave the page to release the camera. Keyboard mode is available without these external dependencies.
 
-## Implementation
+## Current implementation
 
 `physics.js` maps two palm positions to tray angle and horizontal position. `app.js` smooths that input and calculates loss; `events.js` schedules disturbances; `renderer.js` combines separate transparent printed-art sprites with a live Canvas liquid surface. The amount left is state, not a random score: sustained excessive tilt drains it, while ball collisions remove 18 percentage points. Each round samples 4–6 disturbances from floor tilt, falling ball, alien pull, slippery step and bear chase. At least three types appear, some may repeat or be absent, and no identical types occur consecutively. Timing, duration, direction, force strength and ball landing position vary. The sequence spans the whole round, and a final sustained disturbance remains active through the last second. Most disturbances have a short visual lead-in; event names and text warnings are hidden. Balls fall at the left or right third of the scene.
 
@@ -59,7 +72,7 @@ Before submission, also run the camera on a real device, try permission denial, 
 
 ## Known limitations
 
-This is the second visual prototype. The hands/tray, empty bowl, cup/saucer, alien and bear use AI-generated transparent artwork based on the selected direction. Liquid, fill level, spills and motion remain procedural; they are not a static screenshot. Liquids use a simple loss rule rather than fluid simulation. Tracking can jitter, fail in poor lighting, or struggle with overlapping hands. Calibration needs a comfortable steady pose. Detection runs at a limited frequency on the main thread, so older computers may stutter. Physical camera comfort and recognition quality still need user testing. Keyboard is the demonstration path when camera dependencies are unavailable. Desktop use is intended; mobile touch controls are not implemented.
+This is an iterated browser prototype. The hands/tray, empty bowl, cup/saucer, alien and bear use AI-generated transparent artwork based on the selected direction. Liquid, fill level, spills and motion remain procedural; they are not a static screenshot. Liquids use a simple loss rule rather than fluid simulation. Tracking can jitter, fail in poor lighting, or struggle with overlapping hands. Calibration needs a comfortable steady pose. Detection runs at a limited frequency on the main thread, so older computers may stutter. Physical camera comfort and recognition quality still need user testing. Keyboard is the demonstration path when camera dependencies are unavailable. Desktop use is intended; mobile touch controls are not implemented.
 
 ## Credits
 
